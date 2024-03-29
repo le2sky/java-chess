@@ -101,6 +101,28 @@ class BoardTest {
                 .hasMessage("이미 종료된 체스입니다.");
     }
 
+    @DisplayName("체스 결과를 조회할 수 있다.")
+    @Test
+    void result() {
+        Board whiteWinBoard = createWhiteWinBoard();
+
+        ChessResult result = whiteWinBoard.showResult();
+
+        ChessResult expected = new ChessResult(Team.WHITE, Team.BLACK);
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @DisplayName("체스가 진행중이라면, 체스 결과를 조회할 수 없다.")
+    @Test
+    void cantShowResult() {
+        Pieces pieces = PiecesFactory.createInitialPieces();
+        Board notEndGame = new Board(pieces);
+
+        assertThatThrownBy(notEndGame::showResult)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("아직 진행중인 체스입니다.");
+    }
+
     @DisplayName("체스가 진행중인지 확인할 수 있다.")
     @Test
     void isPlaying() {
@@ -127,6 +149,14 @@ class BoardTest {
     @DisplayName("왕이 죽으면 게임이 종료된다.")
     @Test
     void isEnd() {
+        Board board = createWhiteWinBoard();
+
+        boolean result = board.isPlaying();
+
+        assertThat(result).isFalse();
+    }
+
+    private Board createWhiteWinBoard() {
         HashMap<Coordinate, Piece> pieces = new HashMap<>();
         Piece sourcePiece = new Pawn(Team.WHITE);
         Piece targetPiece = new King(Team.BLACK);
@@ -137,8 +167,6 @@ class BoardTest {
         Board board = new Board(pieces);
         board.move(source, target);
 
-        boolean result = board.isPlaying();
-
-        assertThat(result).isFalse();
+        return board;
     }
 }

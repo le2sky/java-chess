@@ -6,10 +6,12 @@ import chess.domain.piece.King;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
 
+// TODO: State 패턴으로 개선해볼 수 있을것
 public class Board {
 
     private final Pieces pieces;
     private final Turn turn;
+    private Team winner; //TODO: 게임이 종료되었을 때, 마지막으로 공격한 턴이 승자이다.
     private BoardState state;
 
     // TODO: 생성자 복잡도 개선
@@ -68,20 +70,30 @@ public class Board {
         turn.change();
     }
 
-    // TODO: instanceof King을 어떻게할 것인지 고민해볼 것
+    // TODO: instanceof King을 어떻게할 것인지 고민해볼 것. getTeam()을 개선해볼 것.
     private void attack(Coordinate source, Coordinate target) {
         Piece targetPiece = pieces.findByCoordinate(target);
         if (targetPiece instanceof King) {
             state = BoardState.END;
+            winner = targetPiece.getTeam().opposite();
         }
 
         pieces.move(source, target);
     }
 
+    // TODO: 메서드 순서 개선
     public double nowScore(Team team) {
         validateChessEnd();
 
         return pieces.calculateTotalScore(team);
+    }
+
+    public ChessResult showResult() {
+        if (isPlaying()) {
+            throw new IllegalStateException("아직 진행중인 체스입니다.");
+        }
+
+        return new ChessResult(winner, winner.opposite());
     }
 
     public boolean isPlaying() {
