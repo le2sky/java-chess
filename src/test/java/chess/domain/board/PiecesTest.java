@@ -57,9 +57,9 @@ class PiecesTest {
         );
     }
 
-    @DisplayName("두 좌표에 해당하는 값들을 서로 바꾼다.")
+    @DisplayName("source 좌표에 해당하는 값을 target 좌표로 이동할 수 있다.")
     @Test
-    void swap() {
+    void move() {
         HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
         Piece sourcePiece = new Pawn(Team.WHITE);
         Coordinate source = new Coordinate(2, 'a');
@@ -67,7 +67,7 @@ class PiecesTest {
         piecesMap.put(source, sourcePiece);
         Pieces pieces = new Pieces(piecesMap);
 
-        pieces.swap(source, target);
+        pieces.move(source, target);
 
         Piece foundSourcePiece = piecesMap.get(source);
         Piece foundTargetPiece = piecesMap.get(target);

@@ -20,7 +20,7 @@ public class Pieces {
         return pieces.containsKey(coordinate);
     }
 
-    void swap(Coordinate source, Coordinate target) {
+    void move(Coordinate source, Coordinate target) {
         Piece sourcePiece = pieces.get(source);
         pieces.remove(source);
         pieces.put(target, sourcePiece);

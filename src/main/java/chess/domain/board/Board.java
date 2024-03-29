@@ -49,7 +49,7 @@ public class Board {
     }
 
     private void updateBoard(Coordinate source, Coordinate target) {
-        pieces.swap(source, target);
+        pieces.move(source, target);
         turn.change();
     }
 
