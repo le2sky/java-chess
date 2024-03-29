@@ -64,6 +64,20 @@ class BoardTest {
                 .hasMessage("상대방이 기물을 둘 차례입니다.");
     }
 
+    @DisplayName("체스가 종료되면, 기물을 움직일 수 없다.")
+    @Test
+    void validateChessEnd() {
+        Pieces pieces = PiecesFactory.createInitialPieces();
+        Turn turn = new Turn(Team.WHITE);
+        Board endBoard = new Board(pieces, turn, BoardState.END);
+        Coordinate source = new Coordinate(2, 'a');
+        Coordinate target = new Coordinate(4, 'a');
+
+        assertThatThrownBy(() -> endBoard.move(source, target))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("이미 종료된 체스입니다.");
+    }
+
     @DisplayName("체스가 진행중인지 확인할 수 있다.")
     @Test
     void isPlaying() {

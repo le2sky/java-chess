@@ -21,16 +21,27 @@ public class Board {
     }
 
     public Board(Pieces pieces) {
+        this(pieces, new Turn(Team.WHITE), BoardState.PLAYING);
+    }
+
+    public Board(Pieces pieces, Turn turn, BoardState state) {
         this.pieces = pieces;
-        this.turn = new Turn(Team.WHITE);
-        this.state = BoardState.PLAYING;
+        this.turn = turn;
+        this.state = state;
     }
 
     public void move(Coordinate source, Coordinate target) {
+        validateChessEnd();
         validateSourceExist(source);
         validateTurn(source);
         validateMovable(source, target);
         updateBoard(source, target);
+    }
+
+    private void validateChessEnd() {
+        if (!isPlaying()) {
+            throw new IllegalStateException("이미 종료된 체스입니다.");
+        }
     }
 
     private void validateSourceExist(Coordinate source) {
