@@ -8,7 +8,7 @@ import chess.domain.piece.Team;
 public class Board {
 
     private final Pieces pieces;
-    private Team turn;
+    private final Turn turn;
 
     public Board(Map<Coordinate, Piece> pieces) {
         this(new Pieces(pieces));
@@ -20,7 +20,7 @@ public class Board {
 
     public Board(Pieces pieces) {
         this.pieces = pieces;
-        this.turn = Team.WHITE;
+        this.turn = new Turn(Team.WHITE);
     }
 
     public void move(Coordinate source, Coordinate target) {
@@ -38,7 +38,7 @@ public class Board {
 
     private void validateTurn(Coordinate source) {
         Piece sourcePiece = pieces.findByCoordinate(source);
-        if (!sourcePiece.isSameTeam(turn)) {
+        if (!turn.isSameTeam(sourcePiece)) {
             throw new IllegalStateException("상대방이 기물을 둘 차례입니다.");
         }
     }
@@ -50,7 +50,7 @@ public class Board {
 
     private void updateBoard(Coordinate source, Coordinate target) {
         pieces.swap(source, target);
-        turn = turn.opposite();
+        turn.change();
     }
 
     public Pieces getPieces() {
