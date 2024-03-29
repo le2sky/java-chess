@@ -16,18 +16,25 @@ public class MoveCommand {
     private static final int TARGET_DATA_INDEX = 1;
     private static final String MOVE_COMMAND = "move";
     private static final String END_COMMAND = "end";
+    private static final String STATUS_COMMAND = "status";
 
     private final boolean isEnd;
+    private final boolean isStatus;
     private final List<Coordinate> data;
 
-    private MoveCommand(boolean isEnd, List<Coordinate> data) {
+    private MoveCommand(boolean isEnd, boolean isStatus, List<Coordinate> data) {
         this.isEnd = isEnd;
+        this.isStatus = isStatus;
         this.data = data;
     }
 
     public static MoveCommand from(String input) {
         if (END_COMMAND.equals(input)) {
-            return new MoveCommand(true, Collections.emptyList());
+            return new MoveCommand(true, false, Collections.emptyList());
+        }
+
+        if (STATUS_COMMAND.equals(input)) {
+            return new MoveCommand(false, true, Collections.emptyList());
         }
 
         return createFillMoveCommand(input);
@@ -40,7 +47,7 @@ public class MoveCommand {
         Coordinate source = createCoordinate(commandSegments.get(SOURCE_INDEX));
         Coordinate target = createCoordinate(commandSegments.get(TARGET_INDEX));
 
-        return new MoveCommand(false, List.of(source, target));
+        return new MoveCommand(false, false, List.of(source, target));
     }
 
     private static void validateCommandSegmentSize(List<String> commandSegments) {
@@ -57,7 +64,12 @@ public class MoveCommand {
 
     private static void validateCommand(String command) {
         if (!MOVE_COMMAND.equals(command)) {
-            String message = String.format("존재하지 않는 명령어입니다. %s 또는 %s를 입력해주세요.", MOVE_COMMAND, END_COMMAND);
+            String message = String.format(
+                    "존재하지 않는 명령어입니다. %s, %s, %s 중 하나를 입력해주세요.",
+                    MOVE_COMMAND,
+                    END_COMMAND,
+                    STATUS_COMMAND
+            );
             throw new IllegalArgumentException(message);
         }
     }
@@ -79,6 +91,10 @@ public class MoveCommand {
 
     public boolean isEnd() {
         return isEnd;
+    }
+
+    public boolean isStatus() {
+        return isStatus;
     }
 
     public Coordinate source() {
