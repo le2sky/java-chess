@@ -12,6 +12,7 @@ public class Board {
     private final Turn turn;
     private BoardState state;
 
+    // TODO: 생성자 복잡도 개선
     public Board(Map<Coordinate, Piece> pieces) {
         this(new Pieces(pieces));
     }
@@ -67,6 +68,7 @@ public class Board {
         turn.change();
     }
 
+    // TODO: instanceof King을 어떻게할 것인지 고민해볼 것
     private void attack(Coordinate source, Coordinate target) {
         Piece targetPiece = pieces.findByCoordinate(target);
         if (targetPiece instanceof King) {
@@ -74,6 +76,12 @@ public class Board {
         }
 
         pieces.move(source, target);
+    }
+
+    public double nowScore(Team team) {
+        validateChessEnd();
+
+        return pieces.calculateTotalScore(team);
     }
 
     public boolean isPlaying() {
