@@ -1,11 +1,16 @@
 package chess.domain.board;
 
-enum BoardState {
+import chess.domain.piece.Team;
 
-    PLAYING,
-    END;
+interface BoardState {
 
-    public boolean isPlaying() {
-        return this == PLAYING;
-    }
+    BoardState move(Coordinate source, Coordinate target);
+
+    double nowScore(Team team);
+
+    ChessResult showResult();
+
+    boolean isPlaying();
+
+    Pieces getPieces();
 }

@@ -69,7 +69,7 @@ class BoardTest {
     void validateChessEnd() {
         Pieces pieces = PiecesFactory.createInitialPieces();
         Turn turn = new Turn(Team.WHITE);
-        Board endBoard = new Board(pieces, turn, BoardState.END);
+        Board endBoard = new Board(new EndState(turn, pieces));
         Coordinate source = new Coordinate(2, 'a');
         Coordinate target = new Coordinate(4, 'a');
 
@@ -94,7 +94,7 @@ class BoardTest {
     void noQueryScore() {
         Pieces pieces = PiecesFactory.createInitialPieces();
         Turn turn = new Turn(Team.WHITE);
-        Board endBoard = new Board(pieces, turn, BoardState.END);
+        Board endBoard = new Board(new EndState(turn, pieces));
 
         assertThatThrownBy(() -> endBoard.nowScore(Team.WHITE))
                 .isInstanceOf(IllegalStateException.class)

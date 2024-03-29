@@ -5,17 +5,21 @@ import chess.domain.piece.Team;
 
 class Turn {
 
-    private Team nowTurn;
+    private Team team;
 
     public Turn(Team team) {
-        this.nowTurn = team;
+        this.team = team;
     }
 
     public boolean isSameTeam(Piece piece) {
-        return piece.isSameTeam(nowTurn);
+        return piece.isSameTeam(team);
     }
 
     public void change() {
-        this.nowTurn = nowTurn.opposite();
+        this.team = team.opposite();
+    }
+
+    public Team getNowTeam() {
+        return team;
     }
 }
