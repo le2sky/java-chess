@@ -1,6 +1,8 @@
 package chess.domain.piece;
 
 import java.util.List;
+import chess.domain.board.Coordinate;
+import chess.domain.board.Pieces;
 
 public class Rook extends AbstractSlidingPiece {
 
@@ -11,5 +13,10 @@ public class Rook extends AbstractSlidingPiece {
                 Direction.LEFT,
                 Direction.RIGHT
         ));
+    }
+
+    @Override
+    public double calculateScore(Coordinate source, Pieces pieces) {
+        return 5;
     }
 }

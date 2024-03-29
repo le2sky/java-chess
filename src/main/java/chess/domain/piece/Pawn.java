@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import chess.domain.board.Coordinate;
 import chess.domain.board.Pieces;
@@ -9,15 +10,11 @@ import chess.domain.piece.exception.ObstacleException;
 
 public class Pawn extends AbstractPiece {
 
-    private final List<Direction> forwardDirections = List.of(
-            Direction.UP,
-            Direction.UP_UP
-    );
+    private static final double WEEK_SCORE = 0.5;
+    private static final int DEFAULT_SCORE = 1;
 
-    private final List<Direction> diagonalDirections = List.of(
-            Direction.UP_LEFT,
-            Direction.UP_RIGHT
-    );
+    private final List<Direction> forwardDirections = List.of(Direction.UP, Direction.UP_UP);
+    private final List<Direction> diagonalDirections = List.of(Direction.UP_LEFT, Direction.UP_RIGHT);
 
     public Pawn(Team team) {
         super(PieceType.PAWN, team);
@@ -95,5 +92,39 @@ public class Pawn extends AbstractPiece {
         if (!isEnemy(pieces.findByCoordinate(target))) {
             throw new InvalidMoveException();
         }
+    }
+
+    @Override
+    public double calculateScore(Coordinate source, Pieces pieces) {
+        List<Direction> checkDirections = List.of(Direction.UP, Direction.DOWN);
+        boolean hasSamePieceAtFile = checkDirections.stream()
+                .anyMatch(checkDirection -> hasSamePiece(source, checkDirection, pieces));
+
+        if (hasSamePieceAtFile) {
+            return WEEK_SCORE;
+        }
+
+        return DEFAULT_SCORE;
+    }
+
+    private boolean hasSamePiece(Coordinate source, Direction checkDirection, Pieces pieces) {
+        Weight weight = checkDirection.getWeight();
+        List<Coordinate> path = createPath(weight, source);
+
+        return path.stream()
+                .map(pieces::findByCoordinate)
+                .anyMatch(this::equals);
+    }
+
+    // TODO: 중복 코드 제거 가능할 듯
+    private List<Coordinate> createPath(Weight weight, Coordinate nowCoordinate) {
+        List<Coordinate> path = new ArrayList<>();
+
+        while (nowCoordinate.canPlus(weight)) {
+            nowCoordinate = nowCoordinate.plus(weight);
+            path.add(nowCoordinate);
+        }
+
+        return path;
     }
 }

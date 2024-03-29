@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -19,6 +20,19 @@ class QueenTest {
     void create() {
         assertThatCode(() -> new Queen(Team.WHITE))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("퀸의 점수를 계산한다.")
+    @Test
+    void calculateScore() {
+        Queen queen = new Queen(Team.WHITE);
+        HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
+        Pieces pieces = new Pieces(piecesMap);
+        Coordinate source = new Coordinate(3, 'e');
+
+        double result = queen.calculateScore(source, pieces);
+
+        assertThat(result).isEqualTo(9);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

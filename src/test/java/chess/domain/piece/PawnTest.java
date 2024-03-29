@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -24,6 +25,33 @@ class PawnTest {
     class WhitePawnTest {
 
         private final Pawn sut = new Pawn(Team.WHITE);
+
+        @DisplayName("기본 점수는 1점이다.")
+        @Test
+        void calculateScore() {
+            HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
+            Pieces pieces = new Pieces(piecesMap);
+            Coordinate source = new Coordinate(3, 'e');
+
+            double result = sut.calculateScore(source, pieces);
+
+            assertThat(result).isEqualTo(1);
+        }
+
+        @DisplayName("같은 세로줄(file)에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.")
+        @Test
+        void whenOtherPawnExist() {
+            HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
+            Coordinate sutCoordinate = new Coordinate(3, 'a');
+            Coordinate down = new Coordinate(2, 'a');
+            piecesMap.put(sutCoordinate, sut);
+            piecesMap.put(down, new Pawn(Team.WHITE));
+            Pieces pieces = new Pieces(piecesMap);
+
+            double result = sut.calculateScore(sutCoordinate, pieces);
+
+            assertThat(result).isEqualTo(0.5);
+        }
 
         @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")
         @Test
@@ -213,6 +241,33 @@ class PawnTest {
     class BlackPawnTest {
 
         private final Pawn sut = new Pawn(Team.BLACK);
+
+        @DisplayName("기본 점수는 1점이다.")
+        @Test
+        void calculateScore() {
+            HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
+            Pieces pieces = new Pieces(piecesMap);
+            Coordinate source = new Coordinate(3, 'e');
+
+            double result = sut.calculateScore(source, pieces);
+
+            assertThat(result).isEqualTo(1);
+        }
+
+        @DisplayName("같은 세로줄(file)에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.")
+        @Test
+        void whenOtherPawnExist() {
+            HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
+            Coordinate sutCoordinate = new Coordinate(3, 'a');
+            Coordinate down = new Coordinate(2, 'a');
+            piecesMap.put(sutCoordinate, sut);
+            piecesMap.put(down, new Pawn(Team.BLACK));
+            Pieces pieces = new Pieces(piecesMap);
+
+            double result = sut.calculateScore(sutCoordinate, pieces);
+
+            assertThat(result).isEqualTo(0.5);
+        }
 
         @DisplayName("target 좌표에 아군 기물이 있다면 이동할 수 없다.")
         @Test

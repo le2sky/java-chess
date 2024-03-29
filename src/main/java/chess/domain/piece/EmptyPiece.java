@@ -19,4 +19,9 @@ public class EmptyPiece extends AbstractPiece {
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public double calculateScore(Coordinate source, Pieces pieces) {
+        throw new UnsupportedOperationException();
+    }
 }

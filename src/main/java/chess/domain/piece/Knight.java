@@ -1,6 +1,8 @@
 package chess.domain.piece;
 
 import java.util.List;
+import chess.domain.board.Coordinate;
+import chess.domain.board.Pieces;
 
 public class Knight extends AbstractNonSlidingPiece {
 
@@ -15,5 +17,10 @@ public class Knight extends AbstractNonSlidingPiece {
                 Direction.RIGHT_RIGHT_UP,
                 Direction.RIGHT_RIGHT_DOWN
         ));
+    }
+
+    @Override
+    public double calculateScore(Coordinate source, Pieces pieces) {
+        return 2.5;
     }
 }
