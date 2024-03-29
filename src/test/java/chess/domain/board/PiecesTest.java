@@ -232,4 +232,45 @@ class PiecesTest {
         List<Pawn> expected = Collections.nCopies(8, new Pawn(Team.BLACK));
         assertThat(result).isEqualTo(expected);
     }
+
+    @DisplayName("흑팀의 점수를 계산할 수 있다.")
+    @Test
+    void calculateTotalScoreBlack() {
+        Pieces pieces = new Pieces(createPiecesMap());
+
+        double result = pieces.calculateTotalScore(Team.BLACK);
+
+        assertThat(result).isEqualTo(20);
+    }
+
+    @DisplayName("백팀의 점수를 계산할 수 있다.")
+    @Test
+    void calculateTotalScoreWhite() {
+        Pieces pieces = new Pieces(createPiecesMap());
+
+        double result = pieces.calculateTotalScore(Team.WHITE);
+
+        assertThat(result).isEqualTo(19.5);
+    }
+
+    private Map<Coordinate, Piece> createPiecesMap() {
+        Map<Coordinate, Piece> piecesMap = new HashMap<>();
+        piecesMap.put(new Coordinate(8, 'b'), new King(Team.BLACK));
+        piecesMap.put(new Coordinate(8, 'c'), new Rook(Team.BLACK));
+        piecesMap.put(new Coordinate(7, 'a'), new Pawn(Team.BLACK));
+        piecesMap.put(new Coordinate(7, 'c'), new Pawn(Team.BLACK));
+        piecesMap.put(new Coordinate(7, 'd'), new Bishop(Team.BLACK));
+        piecesMap.put(new Coordinate(6, 'b'), new Pawn(Team.BLACK));
+        piecesMap.put(new Coordinate(6, 'e'), new Queen(Team.BLACK));
+        piecesMap.put(new Coordinate(4, 'f'), new Knight(Team.WHITE));
+        piecesMap.put(new Coordinate(4, 'g'), new Queen(Team.WHITE));
+        piecesMap.put(new Coordinate(3, 'f'), new Pawn(Team.WHITE));
+        piecesMap.put(new Coordinate(3, 'h'), new Pawn(Team.WHITE));
+        piecesMap.put(new Coordinate(2, 'f'), new Pawn(Team.WHITE));
+        piecesMap.put(new Coordinate(2, 'g'), new Pawn(Team.WHITE));
+        piecesMap.put(new Coordinate(1, 'e'), new Rook(Team.WHITE));
+        piecesMap.put(new Coordinate(1, 'f'), new King(Team.WHITE));
+
+        return piecesMap;
+    }
 }
