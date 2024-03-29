@@ -1,10 +1,12 @@
 package chess.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
+import chess.domain.piece.King;
 import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
@@ -60,5 +62,46 @@ class BoardTest {
         assertThatThrownBy(() -> board.move(middle, target))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("상대방이 기물을 둘 차례입니다.");
+    }
+
+    @DisplayName("체스가 진행중인지 확인할 수 있다.")
+    @Test
+    void isPlaying() {
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        Board board = new Board(pieces);
+
+        boolean result = board.isPlaying();
+
+        assertThat(result).isTrue();
+    }
+
+    /***
+     * ........ 8
+     * ........ 7
+     * ........ 6
+     * ........ 5
+     * ........ 4
+     * ....K... 3  K: King
+     * ...P.... 2  P: Pawn
+     * ........ 1
+     * --------
+     * abcdefgh
+     */
+    @DisplayName("왕이 죽으면 게임이 종료된다.")
+    @Test
+    void isEnd() {
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        Piece sourcePiece = new Pawn(Team.WHITE);
+        Piece targetPiece = new King(Team.BLACK);
+        Coordinate source = new Coordinate(2, 'd');
+        Coordinate target = new Coordinate(3, 'e');
+        pieces.put(source, sourcePiece);
+        pieces.put(target, targetPiece);
+        Board board = new Board(pieces);
+        board.move(source, target);
+
+        boolean result = board.isPlaying();
+
+        assertThat(result).isFalse();
     }
 }

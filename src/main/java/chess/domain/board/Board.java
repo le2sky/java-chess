@@ -2,6 +2,7 @@ package chess.domain.board;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
+import chess.domain.piece.King;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
 
@@ -9,6 +10,7 @@ public class Board {
 
     private final Pieces pieces;
     private final Turn turn;
+    private BoardState state;
 
     public Board(Map<Coordinate, Piece> pieces) {
         this(new Pieces(pieces));
@@ -21,6 +23,7 @@ public class Board {
     public Board(Pieces pieces) {
         this.pieces = pieces;
         this.turn = new Turn(Team.WHITE);
+        this.state = BoardState.PLAYING;
     }
 
     public void move(Coordinate source, Coordinate target) {
@@ -49,8 +52,21 @@ public class Board {
     }
 
     private void updateBoard(Coordinate source, Coordinate target) {
-        pieces.move(source, target);
+        attack(source, target);
         turn.change();
+    }
+
+    private void attack(Coordinate source, Coordinate target) {
+        Piece targetPiece = pieces.findByCoordinate(target);
+        if (targetPiece instanceof King) {
+            state = BoardState.END;
+        }
+
+        pieces.move(source, target);
+    }
+
+    public boolean isPlaying() {
+        return state.isPlaying();
     }
 
     public Pieces getPieces() {
