@@ -29,9 +29,6 @@ public class InputView {
 
     // TODO: 메서드 길이 개선
     public boolean readWannaContinue() {
-        System.out.println("> 이전에 진행하던 게임이 존재합니다. 불러오겠습니까?");
-        System.out.println("> 이전 계속 진행 : yes");
-        System.out.println("> 새로운 게임 시작 : no");
         String input = readLine();
 
         if (CONTINUE_COMMAND.equals(input)) {

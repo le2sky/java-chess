@@ -29,6 +29,7 @@ public class ChessService {
         Coordinate target = request.target();
 
         board.move(source, target);
+
         boardRepository.saveMoveHistory(source, target);
     }
 

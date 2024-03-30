@@ -4,18 +4,15 @@ import java.util.function.Supplier;
 import chess.presentation.view.InputView;
 import chess.presentation.view.OutputView;
 
-abstract class AbstractController implements Controller {
+abstract class AbstractChessGame {
 
     protected final InputView inputView;
     protected final OutputView outputView;
 
-    protected AbstractController() {
+    protected AbstractChessGame() {
         this.inputView = new InputView();
         this.outputView = new OutputView();
     }
-
-    @Override
-    public abstract void execute();
 
     protected void handleException(Runnable runnable) {
         try {
