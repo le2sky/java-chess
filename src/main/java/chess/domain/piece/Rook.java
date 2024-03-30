@@ -14,7 +14,7 @@ public class Rook extends AbstractSlidingPiece {
     }
 
     @Override
-    public double calculateScore(Coordinate source, Pieces pieces) {
-        return 5;
+    public Score calculateScore(Coordinate source, Pieces pieces) {
+        return new Score(5);
     }
 }

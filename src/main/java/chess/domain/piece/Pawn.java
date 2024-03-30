@@ -7,8 +7,8 @@ import chess.domain.piece.exception.ObstacleException;
 
 public class Pawn extends AbstractPiece {
 
-    private static final double WEEK_SCORE = 0.5;
-    private static final double DEFAULT_SCORE = 1;
+    private static final Score WEEK_SCORE = new Score(0.5);
+    private static final Score DEFAULT_SCORE = new Score(1);
 
     private final List<Direction> forwardDirections = List.of(Direction.UP, Direction.UP_UP);
     private final List<Direction> diagonalDirections = List.of(Direction.UP_LEFT, Direction.UP_RIGHT);
@@ -93,7 +93,7 @@ public class Pawn extends AbstractPiece {
     }
 
     @Override
-    public double calculateScore(Coordinate source, Pieces pieces) {
+    public Score calculateScore(Coordinate source, Pieces pieces) {
         List<Direction> checkDirections = List.of(Direction.UP, Direction.DOWN);
         boolean hasSamePieceAtFile = checkDirections.stream()
                 .anyMatch(checkDirection -> hasSamePiece(source, checkDirection, pieces));

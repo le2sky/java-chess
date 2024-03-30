@@ -28,9 +28,9 @@ class RookTest {
         Pieces pieces = new Pieces(piecesMap);
         Coordinate source = new Coordinate(3, 'e');
 
-        double result = rook.calculateScore(source, pieces);
+        Score result = rook.calculateScore(source, pieces);
 
-        assertThat(result).isEqualTo(5);
+        assertThat(result.getValue()).isEqualTo(5);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

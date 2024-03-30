@@ -14,7 +14,7 @@ public class Bishop extends AbstractSlidingPiece {
     }
 
     @Override
-    public double calculateScore(Coordinate source, Pieces pieces) {
-        return 3;
+    public Score calculateScore(Coordinate source, Pieces pieces) {
+        return new Score(3);
     }
 }

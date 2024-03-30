@@ -9,6 +9,7 @@ import chess.domain.board.BoardRepository;
 import chess.domain.board.ChessResult;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.Pieces;
+import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
 public class ChessService {
@@ -48,7 +49,7 @@ public class ChessService {
         return board.showResult();
     }
 
-    public Map<Team, Double> findChessScore() {
+    public Map<Team, Score> findChessScore() {
         Board board = boardRepository.loadBoard();
         return Arrays.stream(Team.values())
                 .filter(team -> !team.isEmpty())

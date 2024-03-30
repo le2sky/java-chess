@@ -18,7 +18,7 @@ public class Queen extends AbstractSlidingPiece {
     }
 
     @Override
-    public double calculateScore(Coordinate source, Pieces pieces) {
-        return 9;
+    public Score calculateScore(Coordinate source, Pieces pieces) {
+        return new Score(9);
     }
 }

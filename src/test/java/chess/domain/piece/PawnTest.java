@@ -31,9 +31,9 @@ class PawnTest {
             Pieces pieces = new Pieces(piecesMap);
             Coordinate source = new Coordinate(3, 'e');
 
-            double result = sut.calculateScore(source, pieces);
+            Score result = sut.calculateScore(source, pieces);
 
-            assertThat(result).isEqualTo(1);
+            assertThat(result.getValue()).isEqualTo(1);
         }
 
         @DisplayName("같은 세로줄(file)에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.")
@@ -46,9 +46,9 @@ class PawnTest {
             piecesMap.put(down, new Pawn(Team.WHITE));
             Pieces pieces = new Pieces(piecesMap);
 
-            double result = sut.calculateScore(sutCoordinate, pieces);
+            Score result = sut.calculateScore(sutCoordinate, pieces);
 
-            assertThat(result).isEqualTo(0.5);
+            assertThat(result.getValue()).isEqualTo(0.5);
         }
 
         @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")
@@ -247,9 +247,9 @@ class PawnTest {
             Pieces pieces = new Pieces(piecesMap);
             Coordinate source = new Coordinate(3, 'e');
 
-            double result = sut.calculateScore(source, pieces);
+            Score result = sut.calculateScore(source, pieces);
 
-            assertThat(result).isEqualTo(1);
+            assertThat(result.getValue()).isEqualTo(1);
         }
 
         @DisplayName("같은 세로줄(file)에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.")
@@ -262,9 +262,9 @@ class PawnTest {
             piecesMap.put(down, new Pawn(Team.BLACK));
             Pieces pieces = new Pieces(piecesMap);
 
-            double result = sut.calculateScore(sutCoordinate, pieces);
+            Score result = sut.calculateScore(sutCoordinate, pieces);
 
-            assertThat(result).isEqualTo(0.5);
+            assertThat(result.getValue()).isEqualTo(0.5);
         }
 
         @DisplayName("target 좌표에 아군 기물이 있다면 이동할 수 없다.")

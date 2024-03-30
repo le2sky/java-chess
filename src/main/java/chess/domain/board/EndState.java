@@ -2,6 +2,7 @@ package chess.domain.board;
 
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.Pieces;
+import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
 class EndState implements BoardState {
@@ -22,7 +23,7 @@ class EndState implements BoardState {
     }
 
     @Override
-    public double nowScore(Team team) {
+    public Score nowScore(Team team) {
         throw new IllegalStateException(ALREADY_END_MESSAGE);
     }
 

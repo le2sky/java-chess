@@ -18,7 +18,7 @@ public class Knight extends AbstractNonSlidingPiece {
     }
 
     @Override
-    public double calculateScore(Coordinate source, Pieces pieces) {
-        return 2.5;
+    public Score calculateScore(Coordinate source, Pieces pieces) {
+        return new Score(2.5);
     }
 }

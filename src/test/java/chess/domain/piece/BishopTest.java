@@ -28,9 +28,9 @@ class BishopTest {
         Pieces pieces = new Pieces(piecesMap);
         Coordinate source = new Coordinate(3, 'e');
 
-        double result = bishop.calculateScore(source, pieces);
+        Score result = bishop.calculateScore(source, pieces);
 
-        assertThat(result).isEqualTo(3);
+        assertThat(result.getValue()).isEqualTo(3);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

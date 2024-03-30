@@ -18,7 +18,7 @@ class EmptyPiece extends AbstractPiece {
     }
 
     @Override
-    public double calculateScore(Coordinate source, Pieces pieces) {
+    public Score calculateScore(Coordinate source, Pieces pieces) {
         throw new UnsupportedOperationException();
     }
 }

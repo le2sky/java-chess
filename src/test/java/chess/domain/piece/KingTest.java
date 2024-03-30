@@ -28,9 +28,9 @@ class KingTest {
         Pieces pieces = new Pieces(piecesMap);
         Coordinate source = new Coordinate(3, 'e');
 
-        double result = king.calculateScore(source, pieces);
+        Score result = king.calculateScore(source, pieces);
 
-        assertThat(result).isEqualTo(0);
+        assertThat(result.getValue()).isEqualTo(0);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

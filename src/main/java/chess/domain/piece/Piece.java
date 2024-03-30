@@ -4,7 +4,7 @@ public interface Piece {
 
     void validateMovable(Coordinate source, Coordinate target, Pieces pieces);
 
-    double calculateScore(Coordinate source, Pieces pieces);
+    Score calculateScore(Coordinate source, Pieces pieces);
 
     boolean isSameTeam(Team team);
 

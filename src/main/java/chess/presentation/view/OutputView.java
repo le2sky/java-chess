@@ -3,6 +3,7 @@ package chess.presentation.view;
 import java.util.Map;
 import chess.domain.board.ChessResult;
 import chess.domain.piece.Pieces;
+import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
 public class OutputView {
@@ -40,7 +41,7 @@ public class OutputView {
         printViewData(viewData);
     }
 
-    public void printScore(Map<Team, Double> scoreBoard) {
+    public void printScore(Map<Team, Score> scoreBoard) {
         CharSequence viewData = converter.convertToViewData(scoreBoard);
         printViewData(viewData);
     }

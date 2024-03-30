@@ -12,6 +12,7 @@ import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Pieces;
 import chess.domain.piece.PiecesFactory;
+import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,9 +88,9 @@ class BoardTest {
         Pieces pieces = PiecesFactory.createInitialPieces();
         Board board = new Board(pieces);
 
-        double score = board.nowScore(Team.WHITE);
+        Score score = board.nowScore(Team.WHITE);
 
-        assertThat(score).isEqualTo(38);
+        assertThat(score.getValue()).isEqualTo(38);
     }
 
     @DisplayName("체스가 종료되면, 기물들의 점수를 조회할 수 없다.")

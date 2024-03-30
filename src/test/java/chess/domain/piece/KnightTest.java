@@ -28,9 +28,9 @@ class KnightTest {
         Pieces pieces = new Pieces(piecesMap);
         Coordinate source = new Coordinate(3, 'e');
 
-        double result = knight.calculateScore(source, pieces);
+        Score result = knight.calculateScore(source, pieces);
 
-        assertThat(result).isEqualTo(2.5);
+        assertThat(result.getValue()).isEqualTo(2.5);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

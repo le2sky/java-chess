@@ -7,6 +7,7 @@ import chess.domain.board.ChessResult;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Pieces;
+import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
 class ViewDataConverter {
@@ -39,13 +40,13 @@ class ViewDataConverter {
         return shape.toLowerCase();
     }
 
-    public CharSequence convertToViewData(Map<Team, Double> scoreBoard) {
+    public CharSequence convertToViewData(Map<Team, Score> scoreBoard) {
         StringBuilder viewData = new StringBuilder("[점수 현황판]");
         viewData.append(System.lineSeparator());
         scoreBoard.forEach((team, score) -> {
             viewData.append(team.name());
             viewData.append(" 진영 : ");
-            viewData.append(score);
+            viewData.append(score.getValue());
             viewData.append("점");
             viewData.append(System.lineSeparator());
         });

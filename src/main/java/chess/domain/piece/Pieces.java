@@ -24,16 +24,16 @@ public class Pieces {
         pieces.put(target, sourcePiece);
     }
 
-    public double calculateTotalScore(Team targetTeam) {
+    public Score calculateTotalScore(Team targetTeam) {
         return pieces.keySet().stream()
-                .mapToDouble(coordinate -> calculateEachScore(coordinate, targetTeam))
-                .sum();
+                .map(coordinate -> calculateEachScore(coordinate, targetTeam))
+                .reduce(new Score(0), Score::add);
     }
 
-    private double calculateEachScore(Coordinate coordinate, Team targetTeam) {
+    private Score calculateEachScore(Coordinate coordinate, Team targetTeam) {
         Piece piece = findByCoordinate(coordinate);
         if (!piece.isSameTeam(targetTeam)) {
-            return 0;
+            return new Score(0);
         }
 
         return piece.calculateScore(coordinate, this);
