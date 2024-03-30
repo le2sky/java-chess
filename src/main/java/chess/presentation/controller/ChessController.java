@@ -20,7 +20,7 @@ class ChessController extends AbstractController {
     }
 
     private void printChessStartMessage() {
-        if(service.hasContinuableBoard()){
+        if (service.hasContinuableBoard()) {
             outputView.printContinueMessage();
             return;
         }
@@ -37,6 +37,7 @@ class ChessController extends AbstractController {
 
         if (!service.isChessPlaying()) {
             outputView.printChessResult(service.findChessResult());
+            service.clearPreviousBoard();
         }
     }
 

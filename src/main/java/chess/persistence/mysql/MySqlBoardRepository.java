@@ -1,0 +1,62 @@
+package chess.persistence.mysql;
+
+import java.util.List;
+import chess.domain.board.Board;
+import chess.domain.board.BoardRepository;
+import chess.domain.board.Coordinate;
+
+public class MySqlBoardRepository implements BoardRepository {
+
+    private final BoardHistoryDao boardHistoryDao;
+    private Board cached;
+
+    public MySqlBoardRepository() {
+        this.boardHistoryDao = new BoardHistoryDao();
+    }
+
+    @Override
+    public boolean hasContinuableBoard() {
+        List<BoardHistoryEntity> histories = boardHistoryDao.findAll();
+
+        return !histories.isEmpty();
+    }
+
+    @Override
+    public Board loadBoard() {
+        return recover();
+    }
+
+    @Override
+    public void saveMoveHistory(Coordinate source, Coordinate target) {
+        BoardHistoryEntity historyEntity = new BoardHistoryEntity(
+                source.getRank(),
+                source.getFile(),
+                target.getRank(),
+                target.getFile());
+
+        boardHistoryDao.saveOne(historyEntity);
+    }
+
+    @Override
+    public void clear() {
+        boardHistoryDao.deleteAll();
+        cached = recover();
+    }
+
+    private Board recover() {
+        if (cached != null) {
+            return cached;
+        }
+
+        Board board = new Board();
+        List<BoardHistoryEntity> histories = boardHistoryDao.findAll();
+        for (BoardHistoryEntity history : histories) {
+            Coordinate source = new Coordinate(history.sourceRank, (char) history.sourceFile);
+            Coordinate target = new Coordinate(history.targetRank, (char) history.targetFile);
+            board.move(source, target);
+        }
+        cached = board;
+
+        return cached;
+    }
+}

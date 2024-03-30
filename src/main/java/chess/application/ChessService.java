@@ -34,19 +34,16 @@ public class ChessService {
 
     public boolean isChessPlaying() {
         Board board = boardRepository.loadBoard();
-
         return board.isPlaying();
     }
 
     public Pieces findPieces() {
         Board board = boardRepository.loadBoard();
-
         return board.getPieces();
     }
 
     public ChessResult findChessResult() {
         Board board = boardRepository.loadBoard();
-
         return board.showResult();
     }
 
@@ -56,5 +53,9 @@ public class ChessService {
         return Arrays.stream(Team.values())
                 .filter(team -> team != Team.EMPTY)
                 .collect(Collectors.toMap(team -> team, board::nowScore));
+    }
+
+    public void clearPreviousBoard() {
+        boardRepository.clear();
     }
 }

@@ -39,6 +39,10 @@ public class Coordinate {
         return rank.value();
     }
 
+    public char getFile() {
+        return file.value();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

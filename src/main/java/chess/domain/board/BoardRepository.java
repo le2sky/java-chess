@@ -7,4 +7,6 @@ public interface BoardRepository {
     Board loadBoard();
 
     void saveMoveHistory(Coordinate source, Coordinate target);
+
+    void clear();
 }
