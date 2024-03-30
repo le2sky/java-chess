@@ -44,16 +44,14 @@ class PlayingState implements BoardState {
         sourcePiece.validateMovable(source, target, pieces);
     }
 
-    // TODO: instanceof에 대해서 고민해보기
     private BoardState updateBoard(Coordinate source, Coordinate target) {
         Piece targetPiece = pieces.findByCoordinate(target);
         pieces.move(source, target);
-        if (!(targetPiece instanceof King)) {
-            turn.change();
-            return this;
+        if (targetPiece instanceof King) {
+            return new EndState(turn, pieces);
         }
-
-        return new EndState(turn, pieces);
+        turn.change();
+        return this;
     }
 
     @Override
