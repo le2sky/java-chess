@@ -16,7 +16,7 @@ public class Pawn extends AbstractPiece {
 
     @Override
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
-        List<Coordinate> forwardPath = createForwardPossibleCoordinates(source);
+        List<Coordinate> forwardPath = createForwardPath(source);
         List<Coordinate> diagonalPossibleCoordinates = createDiagonalPossibleCoordinate(source);
         validateReachable(target, diagonalPossibleCoordinates, forwardPath);
         validateForwardAttack(target, forwardPath, pieces);
@@ -27,7 +27,7 @@ public class Pawn extends AbstractPiece {
         validateDiagonal(target, diagonalPossibleCoordinates, pieces);
     }
 
-    private List<Coordinate> createForwardPossibleCoordinates(Coordinate source) {
+    private List<Coordinate> createForwardPath(Coordinate source) {
         List<Direction> directions = List.of(Direction.UP, Direction.UP_UP);
 
         return createPossibleCoordinate(source, directions);
@@ -76,7 +76,7 @@ public class Pawn extends AbstractPiece {
     }
 
     private void validateObstacle(Coordinate middleCoordinate, Pieces pieces) {
-        if(pieces.isPiecePresent(middleCoordinate)){
+        if (pieces.isPiecePresent(middleCoordinate)) {
             throw new ObstacleException();
         }
     }

@@ -17,20 +17,20 @@ abstract class AbstractSlidingPiece extends AbstractPiece {
 
     @Override
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
-        List<Coordinate> path = createPath(source, target);
+        List<Coordinate> path = createTargetIncludedPath(source, target);
 
         validateObstacle(target, path, pieces);
     }
 
-    private List<Coordinate> createPath(Coordinate source, Coordinate target) {
+    private List<Coordinate> createTargetIncludedPath(Coordinate source, Coordinate target) {
         return directions.stream()
-                .map(direction -> createSlidingPath(source, direction))
+                .map(direction -> createPath(source, direction))
                 .filter(coordinates -> coordinates.contains(target))
                 .findFirst()
                 .orElseThrow(InvalidMoveException::new);
     }
 
-    private List<Coordinate> createSlidingPath(Coordinate start, Direction direction) {
+    private List<Coordinate> createPath(Coordinate start, Direction direction) {
         List<Coordinate> slidingPath = new ArrayList<>();
         Weight weight = direction.getWeight();
         Coordinate nowCoordinate = start;

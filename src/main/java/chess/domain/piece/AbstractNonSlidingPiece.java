@@ -15,13 +15,13 @@ abstract class AbstractNonSlidingPiece extends AbstractPiece {
 
     @Override
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
-        List<Coordinate> path = createPath(source);
-        if (!path.contains(target)) {
+        List<Coordinate> possibleCoordinates = createPossibleCoordinates(source);
+        if (!possibleCoordinates.contains(target)) {
             throw new InvalidMoveException();
         }
     }
 
-    private List<Coordinate> createPath(Coordinate source) {
+    private List<Coordinate> createPossibleCoordinates(Coordinate source) {
         return directions.stream()
                 .map(Direction::getWeight)
                 .filter(source::canPlus)
