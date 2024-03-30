@@ -5,8 +5,8 @@ import chess.application.ChessService;
 import chess.application.request.MovePieceRequest;
 import chess.presentation.view.InputView;
 import chess.presentation.view.OutputView;
-import chess.presentation.view.command.MoveCommand;
-import chess.presentation.view.command.StartCommand;
+import chess.presentation.controller.command.MoveCommand;
+import chess.presentation.controller.command.StartCommand;
 
 public class ChessController {
 
@@ -22,7 +22,7 @@ public class ChessController {
 
     public void run() {
         outputView.printStartMessage();
-        StartCommand startCommand = handleException(inputView::readWannaStart);
+        StartCommand startCommand = handleException1(() -> StartCommand.from(inputView.readCommand()));
         if (startCommand.isStart()) {
             handleException(this::start);
             outro();
@@ -32,7 +32,7 @@ public class ChessController {
     private void start() {
         outputView.printPieces(service.findPieces());
         while (service.isChessPlaying()) {
-            MoveCommand moveCommand = inputView.readMoveCommand();
+            MoveCommand moveCommand = handleException2(() -> MoveCommand.from(inputView.readCommand()));
             if (moveCommand.isEnd()) {
                 outputView.printEndMessage();
                 break;
@@ -59,6 +59,24 @@ public class ChessController {
         } catch (Exception exception) {
             outputView.printExceptionMessage(exception);
             handleException(runnable);
+        }
+    }
+
+    private StartCommand handleException1(Supplier<StartCommand> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception exception) {
+            outputView.printExceptionMessage(exception);
+            return handleException(supplier);
+        }
+    }
+
+    private MoveCommand handleException2(Supplier<MoveCommand> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception exception) {
+            outputView.printExceptionMessage(exception);
+            return handleException(supplier);
         }
     }
 
