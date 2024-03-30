@@ -1,4 +1,4 @@
-package chess.view;
+package chess.presentation.view;
 
 import java.util.Map;
 import chess.domain.board.ChessResult;

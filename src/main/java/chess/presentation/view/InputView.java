@@ -1,8 +1,8 @@
-package chess.view;
+package chess.presentation.view;
 
 import java.util.Scanner;
-import chess.view.command.MoveCommand;
-import chess.view.command.StartCommand;
+import chess.presentation.view.command.MoveCommand;
+import chess.presentation.view.command.StartCommand;
 
 public class InputView {
 

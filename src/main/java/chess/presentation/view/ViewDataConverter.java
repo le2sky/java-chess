@@ -1,4 +1,4 @@
-package chess.view;
+package chess.presentation.view;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

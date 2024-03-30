@@ -1,4 +1,4 @@
-package chess.view.command;
+package chess.presentation.view.command;
 
 public class StartCommand {
 

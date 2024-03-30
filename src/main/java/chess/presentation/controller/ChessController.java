@@ -1,4 +1,4 @@
-package chess.controller;
+package chess.presentation.controller;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 import chess.domain.board.Board;
 import chess.domain.board.Coordinate;
 import chess.domain.piece.Team;
-import chess.view.InputView;
-import chess.view.OutputView;
-import chess.view.command.MoveCommand;
-import chess.view.command.StartCommand;
+import chess.presentation.view.InputView;
+import chess.presentation.view.OutputView;
+import chess.presentation.view.command.MoveCommand;
+import chess.presentation.view.command.StartCommand;
 
 public class ChessController {
 

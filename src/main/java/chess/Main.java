@@ -1,8 +1,8 @@
 package chess;
 
-import chess.controller.ChessController;
-import chess.view.InputView;
-import chess.view.OutputView;
+import chess.presentation.controller.ChessController;
+import chess.presentation.view.InputView;
+import chess.presentation.view.OutputView;
 
 class Main {
 
