@@ -1,12 +1,11 @@
 package chess.presentation.controller;
 
-import java.util.function.Supplier;
 import chess.application.ChessService;
 import chess.application.request.MovePieceRequest;
-import chess.presentation.view.InputView;
-import chess.presentation.view.OutputView;
 import chess.presentation.controller.command.MoveCommand;
 import chess.presentation.controller.command.StartCommand;
+import chess.presentation.view.InputView;
+import chess.presentation.view.OutputView;
 
 public class ChessController {
 
@@ -22,9 +21,9 @@ public class ChessController {
 
     public void run() {
         outputView.printStartMessage();
-        StartCommand startCommand = handleException1(() -> StartCommand.from(inputView.readCommand()));
+        StartCommand startCommand = ExceptionHandler.handleException1(() -> StartCommand.from(inputView.readCommand()), outputView);
         if (startCommand.isStart()) {
-            handleException(this::start);
+            ExceptionHandler.handleException(this::start, outputView);
             outro();
         }
     }
@@ -32,7 +31,7 @@ public class ChessController {
     private void start() {
         outputView.printPieces(service.findPieces());
         while (service.isChessPlaying()) {
-            MoveCommand moveCommand = handleException2(() -> MoveCommand.from(inputView.readCommand()));
+            MoveCommand moveCommand = ExceptionHandler.handleException2(() -> MoveCommand.from(inputView.readCommand()), outputView);
             if (moveCommand.isEnd()) {
                 outputView.printEndMessage();
                 break;
@@ -51,41 +50,5 @@ public class ChessController {
         }
 
         outputView.printChessResult(service.findChessResult());
-    }
-
-    private void handleException(Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (Exception exception) {
-            outputView.printExceptionMessage(exception);
-            handleException(runnable);
-        }
-    }
-
-    private StartCommand handleException1(Supplier<StartCommand> supplier) {
-        try {
-            return supplier.get();
-        } catch (Exception exception) {
-            outputView.printExceptionMessage(exception);
-            return handleException(supplier);
-        }
-    }
-
-    private MoveCommand handleException2(Supplier<MoveCommand> supplier) {
-        try {
-            return supplier.get();
-        } catch (Exception exception) {
-            outputView.printExceptionMessage(exception);
-            return handleException(supplier);
-        }
-    }
-
-    private <T> T handleException(Supplier<T> supplier) {
-        try {
-            return supplier.get();
-        } catch (Exception exception) {
-            outputView.printExceptionMessage(exception);
-            return handleException(supplier);
-        }
     }
 }
