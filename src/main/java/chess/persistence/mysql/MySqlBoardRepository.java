@@ -47,7 +47,12 @@ public class MySqlBoardRepository implements BoardRepository {
         if (cached != null) {
             return cached;
         }
+        cached = createBoard();
 
+        return cached;
+    }
+
+    private Board createBoard() {
         Board board = new Board();
         List<BoardHistoryEntity> histories = boardHistoryDao.findAll();
         for (BoardHistoryEntity history : histories) {
@@ -55,8 +60,6 @@ public class MySqlBoardRepository implements BoardRepository {
             Coordinate target = new Coordinate(history.targetRank, (char) history.targetFile);
             board.move(source, target);
         }
-        cached = board;
-
-        return cached;
+        return board;
     }
 }
