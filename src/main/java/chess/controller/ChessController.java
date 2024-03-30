@@ -1,4 +1,4 @@
-package chess;
+package chess.controller;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -11,7 +11,7 @@ import chess.view.OutputView;
 import chess.view.command.MoveCommand;
 import chess.view.command.StartCommand;
 
-class ChessController {
+public class ChessController {
 
     private final InputView inputView;
     private final OutputView outputView;
