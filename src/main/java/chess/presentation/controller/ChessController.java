@@ -1,11 +1,8 @@
 package chess.presentation.controller;
 
-import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
-import chess.domain.board.Board;
-import chess.domain.board.Coordinate;
-import chess.domain.piece.Team;
+import chess.application.ChessService;
+import chess.application.request.MovePieceRequest;
 import chess.presentation.view.InputView;
 import chess.presentation.view.OutputView;
 import chess.presentation.view.command.MoveCommand;
@@ -15,58 +12,53 @@ public class ChessController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final ChessService service;
 
     public ChessController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.service = new ChessService();
     }
 
     public void run() {
         outputView.printStartMessage();
         StartCommand startCommand = handleException(inputView::readWannaStart);
         if (startCommand.isStart()) {
-            Board board = new Board();
-            handleException(this::start, board);
-            outro(board);
+            handleException(this::start);
+            outro();
         }
     }
 
-    private void start(Board board) {
-        outputView.printPieces(board.getPieces());
-        while (board.isPlaying()) {
+    private void start() {
+        outputView.printPieces(service.findPieces());
+        while (service.isChessPlaying()) {
             MoveCommand moveCommand = inputView.readMoveCommand();
             if (moveCommand.isEnd()) {
                 outputView.printEndMessage();
                 break;
             } else if (moveCommand.isStatus()) {
-                Map<Team, Double> scoreBoard = Map.of(
-                        Team.WHITE, board.nowScore(Team.WHITE),
-                        Team.BLACK, board.nowScore(Team.BLACK)
-                );
-                outputView.printScore(scoreBoard);
+                outputView.printScore(service.findChessScore());
             } else {
-                Coordinate source = moveCommand.source();
-                Coordinate target = moveCommand.target();
-                board.move(source, target);
-                outputView.printPieces(board.getPieces());
+                service.move(new MovePieceRequest(moveCommand.source(), moveCommand.target()));
+                outputView.printPieces(service.findPieces());
             }
         }
     }
 
-    private void outro(Board board) {
-        if (board.isPlaying()) {
+    private void outro() {
+        if (service.isChessPlaying()) {
             return;
         }
 
-        outputView.printChessResult(board.showResult());
+        outputView.printChessResult(service.findChessResult());
     }
 
-    private <T> void handleException(Consumer<T> consumer, T target) {
+    private void handleException(Runnable runnable) {
         try {
-            consumer.accept(target);
+            runnable.run();
         } catch (Exception exception) {
             outputView.printExceptionMessage(exception);
-            handleException(consumer, target);
+            handleException(runnable);
         }
     }
 
