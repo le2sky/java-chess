@@ -9,7 +9,7 @@ public class OutputView {
 
     private final ViewDataConverter converter = new ViewDataConverter();
 
-    public void printStartMessage() {
+    public void printGameGuide() {
         System.out.println("> 체스 게임을 시작합니다.");
         System.out.println("> 게임 시작 : start");
         System.out.println("> 게임 종료 : end");
@@ -22,20 +22,25 @@ public class OutputView {
         System.out.printf("%n%s%n", viewData);
     }
 
-    public void printEndMessage() {
-        System.out.println("체스를 종료합니다.");
+    public void printGameEndMessage() {
+        System.out.println("체스 게임을 종료합니다.");
     }
 
+    // TODO : StringBuilder로 개선
     public void printScore(Map<Team, Double> scoreBoard) {
-        scoreBoard.forEach((team, score) -> System.out.printf("%s팀 점수 : %s %n", team.name(), score));
+        System.out.printf("%n[점수 현황판]%n");
+        scoreBoard.forEach((team, score) -> System.out.printf("%s 팀 점수 : %s %n", team.name(), score));
+        System.out.println();
     }
 
     public void printChessResult(ChessResult chessResult) {
+        System.out.printf("%n[게임 결과]%n");
         System.out.printf("승자 : %s%n", chessResult.winner().name());
         System.out.printf("패자 : %s%n", chessResult.loser().name());
+        System.out.println();
     }
 
     public void printExceptionMessage(Exception exception) {
-        System.out.printf("[ERROR] %s%n", exception.getMessage());
+        System.out.printf("%n[ERROR]%n%s%n", exception.getMessage());
     }
 }

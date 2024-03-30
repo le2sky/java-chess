@@ -1,16 +1,14 @@
 package chess;
 
-import chess.presentation.controller.ChessController;
-import chess.presentation.view.InputView;
-import chess.presentation.view.OutputView;
+import chess.application.ChessService;
+import chess.presentation.controller.ChessGame;
 
 class Main {
 
     public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-        ChessController controller = new ChessController(inputView, outputView);
+        ChessService chessService = new ChessService();
+        ChessGame chessGame = new ChessGame(chessService);
 
-        controller.run();
+        chessGame.execute();
     }
 }

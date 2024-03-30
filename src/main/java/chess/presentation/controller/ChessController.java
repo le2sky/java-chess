@@ -1,54 +1,43 @@
 package chess.presentation.controller;
 
 import chess.application.ChessService;
-import chess.application.request.MovePieceRequest;
-import chess.presentation.controller.command.MoveCommand;
-import chess.presentation.controller.command.StartCommand;
-import chess.presentation.view.InputView;
-import chess.presentation.view.OutputView;
+import chess.presentation.controller.command.Command;
+import chess.presentation.controller.command.CommandFactory;
 
-public class ChessController {
+class ChessController extends AbstractController {
 
-    private final InputView inputView;
-    private final OutputView outputView;
     private final ChessService service;
 
-    public ChessController(InputView inputView, OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-        this.service = new ChessService();
+    public ChessController(ChessService chessService) {
+        this.service = chessService;
     }
 
-    public void run() {
-        outputView.printStartMessage();
-        StartCommand startCommand = ExceptionHandler.handleException1(() -> StartCommand.from(inputView.readCommand()), outputView);
-        if (startCommand.isStart()) {
-            ExceptionHandler.handleException(this::start, outputView);
-            outro();
-        }
-    }
-
-    private void start() {
+    @Override
+    public void execute() {
         outputView.printPieces(service.findPieces());
-        while (service.isChessPlaying()) {
-            MoveCommand moveCommand = ExceptionHandler.handleException2(() -> MoveCommand.from(inputView.readCommand()), outputView);
-            if (moveCommand.isEnd()) {
-                outputView.printEndMessage();
-                break;
-            } else if (moveCommand.isStatus()) {
-                outputView.printScore(service.findChessScore());
-            } else {
-                service.move(new MovePieceRequest(moveCommand.source(), moveCommand.target()));
-                outputView.printPieces(service.findPieces());
-            }
+        handleException(this::tryMove);
+    }
+
+    private void tryMove() {
+        Command command;
+
+        do {
+            command = createCommand();
+            executeCommand(command);
+        } while (service.isChessPlaying() && command.isExecutable());
+
+        if (!service.isChessPlaying()) {
+            outputView.printChessResult(service.findChessResult());
         }
     }
 
-    private void outro() {
-        if (service.isChessPlaying()) {
-            return;
-        }
+    private Command createCommand() {
+        return handleException(() -> CommandFactory.createCommand(inputView.readLine()));
+    }
 
-        outputView.printChessResult(service.findChessResult());
+    private void executeCommand(Command command) {
+        if (command.isExecutable()) {
+            command.execute(outputView, service);
+        }
     }
 }
