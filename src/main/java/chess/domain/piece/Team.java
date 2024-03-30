@@ -27,4 +27,8 @@ public enum Team {
 
         return EMPTY;
     }
+
+    public boolean isEmpty() {
+        return this == EMPTY;
+    }
 }

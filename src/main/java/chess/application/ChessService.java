@@ -50,9 +50,8 @@ public class ChessService {
 
     public Map<Team, Double> findChessScore() {
         Board board = boardRepository.loadBoard();
-
         return Arrays.stream(Team.values())
-                .filter(team -> team != Team.EMPTY)
+                .filter(team -> !team.isEmpty())
                 .collect(Collectors.toMap(team -> team, board::nowScore));
     }
 
