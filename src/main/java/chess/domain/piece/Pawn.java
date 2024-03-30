@@ -10,28 +10,36 @@ public class Pawn extends AbstractPiece {
     private static final Score WEEK_SCORE = new Score(0.5);
     private static final Score DEFAULT_SCORE = new Score(1);
 
-    private final List<Direction> forwardDirections = List.of(Direction.UP, Direction.UP_UP);
-    private final List<Direction> diagonalDirections = List.of(Direction.UP_LEFT, Direction.UP_RIGHT);
-
     public Pawn(Team team) {
         super(PieceType.PAWN, team);
     }
 
     @Override
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
-        List<Coordinate> forwardPath = createPath(source, forwardDirections);
-        List<Coordinate> diagonalPath = createPath(source, diagonalDirections);
-
-        validateReachable(target, diagonalPath, forwardPath);
+        List<Coordinate> forwardPath = createForwardPossibleCoordinates(source);
+        List<Coordinate> diagonalPossibleCoordinates = createDiagonalPossibleCoordinate(source);
+        validateReachable(target, diagonalPossibleCoordinates, forwardPath);
         validateForwardAttack(target, forwardPath, pieces);
         if (isTwoStep(source, target)) {
             validateInitialCoordinate(source);
-            validateBlocked(target, forwardPath, pieces);
+            validateObstacle(forwardPath.get(0), pieces);
         }
-        validateDiagonal(target, diagonalPath, pieces);
+        validateDiagonal(target, diagonalPossibleCoordinates, pieces);
     }
 
-    private List<Coordinate> createPath(Coordinate source, List<Direction> directions) {
+    private List<Coordinate> createForwardPossibleCoordinates(Coordinate source) {
+        List<Direction> directions = List.of(Direction.UP, Direction.UP_UP);
+
+        return createPossibleCoordinate(source, directions);
+    }
+
+    private List<Coordinate> createDiagonalPossibleCoordinate(Coordinate source) {
+        List<Direction> directions = List.of(Direction.UP_LEFT, Direction.UP_RIGHT);
+
+        return createPossibleCoordinate(source, directions);
+    }
+
+    private List<Coordinate> createPossibleCoordinate(Coordinate source, List<Direction> directions) {
         int forwardDirection = team.getForwardDirection();
 
         return directions.stream()
@@ -42,8 +50,11 @@ public class Pawn extends AbstractPiece {
                 .toList();
     }
 
-    private void validateReachable(Coordinate target, List<Coordinate> diagonalPath, List<Coordinate> forwardPath) {
-        if (!(forwardPath.contains(target) || diagonalPath.contains(target))) {
+    private void validateReachable(
+            Coordinate target,
+            List<Coordinate> diagonalPossibleCoordinates,
+            List<Coordinate> forwardPath) {
+        if (!(forwardPath.contains(target) || diagonalPossibleCoordinates.contains(target))) {
             throw new InvalidMoveException();
         }
     }
@@ -64,20 +75,17 @@ public class Pawn extends AbstractPiece {
         }
     }
 
-    // TODO : 이름 변경할 것
-    private void validateBlocked(Coordinate target, List<Coordinate> path, Pieces pieces) {
-        Coordinate blockedCoordinate = path.stream()
-                .filter(pieces::isPiecePresent)
-                .findFirst()
-                .orElse(target);
-
-        if (!blockedCoordinate.equals(target)) {
+    private void validateObstacle(Coordinate middleCoordinate, Pieces pieces) {
+        if(pieces.isPiecePresent(middleCoordinate)){
             throw new ObstacleException();
         }
     }
 
-    private void validateDiagonal(Coordinate target, List<Coordinate> diagonalPath, Pieces pieces) {
-        if (diagonalPath.contains(target)) {
+    private void validateDiagonal(
+            Coordinate target,
+            List<Coordinate> diagonalPossibleCoordinates,
+            Pieces pieces) {
+        if (diagonalPossibleCoordinates.contains(target)) {
             validateEnemyExist(target, pieces);
         }
     }
@@ -114,10 +122,8 @@ public class Pawn extends AbstractPiece {
                 .anyMatch(this::equals);
     }
 
-    // TODO: 중복 코드 제거 가능할 듯
     private List<Coordinate> createPath(Weight weight, Coordinate nowCoordinate) {
         List<Coordinate> path = new ArrayList<>();
-
         while (nowCoordinate.canPlus(weight)) {
             nowCoordinate = nowCoordinate.plus(weight);
             path.add(nowCoordinate);
