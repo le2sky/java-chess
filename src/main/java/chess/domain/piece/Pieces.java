@@ -1,9 +1,6 @@
-package chess.domain.board;
+package chess.domain.piece;
 
 import java.util.Map;
-import chess.domain.piece.EmptyPiece;
-import chess.domain.piece.Piece;
-import chess.domain.piece.Team;
 
 public class Pieces {
 
@@ -21,13 +18,13 @@ public class Pieces {
         return pieces.containsKey(coordinate);
     }
 
-    void move(Coordinate source, Coordinate target) {
+    public void move(Coordinate source, Coordinate target) {
         Piece sourcePiece = pieces.get(source);
         pieces.remove(source);
         pieces.put(target, sourcePiece);
     }
 
-    double calculateTotalScore(Team targetTeam) {
+    public double calculateTotalScore(Team targetTeam) {
         return pieces.keySet().stream()
                 .mapToDouble(coordinate -> calculateEachScore(coordinate, targetTeam))
                 .sum();

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import chess.application.ChessService;
 import chess.application.request.MovePieceRequest;
-import chess.domain.board.Coordinate;
+import chess.domain.piece.Coordinate;
 import chess.presentation.view.OutputView;
 
 class MoveCommand extends Command {

@@ -1,8 +1,6 @@
 package chess.domain.piece;
 
 import java.util.List;
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
 import chess.domain.piece.exception.InvalidMoveException;
 
 abstract class AbstractNonSlidingPiece extends AbstractPiece {

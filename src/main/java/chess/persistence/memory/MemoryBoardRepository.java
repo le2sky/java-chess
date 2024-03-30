@@ -2,7 +2,7 @@ package chess.persistence.memory;
 
 import chess.domain.board.Board;
 import chess.domain.board.BoardRepository;
-import chess.domain.board.Coordinate;
+import chess.domain.piece.Coordinate;
 
 public class MemoryBoardRepository implements BoardRepository {
 

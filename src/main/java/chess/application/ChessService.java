@@ -7,8 +7,8 @@ import chess.application.request.MovePieceRequest;
 import chess.domain.board.Board;
 import chess.domain.board.BoardRepository;
 import chess.domain.board.ChessResult;
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
+import chess.domain.piece.Coordinate;
+import chess.domain.piece.Pieces;
 import chess.domain.piece.Team;
 
 public class ChessService {

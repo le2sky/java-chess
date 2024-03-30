@@ -3,7 +3,7 @@ package chess.persistence.mysql;
 import java.util.List;
 import chess.domain.board.Board;
 import chess.domain.board.BoardRepository;
-import chess.domain.board.Coordinate;
+import chess.domain.piece.Coordinate;
 
 public class MySqlBoardRepository implements BoardRepository {
 

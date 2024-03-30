@@ -1,5 +1,7 @@
 package chess.domain.board;
 
+import chess.domain.piece.Coordinate;
+
 public interface BoardRepository {
 
     boolean hasContinuableBoard();

@@ -1,9 +1,6 @@
 package chess.domain.piece;
 
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
-
-public class EmptyPiece extends AbstractPiece {
+class EmptyPiece extends AbstractPiece {
 
     private static final Piece INSTANCE = new EmptyPiece();
 

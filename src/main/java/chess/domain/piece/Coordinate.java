@@ -1,7 +1,6 @@
-package chess.domain.board;
+package chess.domain.piece;
 
 import java.util.Objects;
-import chess.domain.piece.Weight;
 
 public class Coordinate {
 

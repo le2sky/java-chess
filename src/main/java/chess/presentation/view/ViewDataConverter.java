@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import chess.domain.board.ChessResult;
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
+import chess.domain.piece.Coordinate;
 import chess.domain.piece.Piece;
+import chess.domain.piece.Pieces;
 import chess.domain.piece.Team;
 
 class ViewDataConverter {

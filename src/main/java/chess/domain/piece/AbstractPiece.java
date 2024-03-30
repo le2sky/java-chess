@@ -1,8 +1,6 @@
 package chess.domain.piece;
 
 import java.util.Objects;
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
 
 abstract class AbstractPiece implements Piece {
 

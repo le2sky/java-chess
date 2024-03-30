@@ -1,8 +1,6 @@
 package chess.domain.piece;
 
 import java.util.List;
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
 
 public class Rook extends AbstractSlidingPiece {
 

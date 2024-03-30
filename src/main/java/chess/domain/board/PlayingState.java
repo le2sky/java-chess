@@ -1,8 +1,10 @@
 package chess.domain.board;
 
 import java.util.NoSuchElementException;
+import chess.domain.piece.Coordinate;
 import chess.domain.piece.King;
 import chess.domain.piece.Piece;
+import chess.domain.piece.Pieces;
 import chess.domain.piece.Team;
 
 class PlayingState implements BoardState {

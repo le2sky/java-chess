@@ -2,7 +2,7 @@ package chess.presentation.view;
 
 import java.util.Map;
 import chess.domain.board.ChessResult;
-import chess.domain.board.Pieces;
+import chess.domain.piece.Pieces;
 import chess.domain.piece.Team;
 
 public class OutputView {

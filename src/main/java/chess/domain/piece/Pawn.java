@@ -2,9 +2,6 @@ package chess.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import chess.domain.board.Coordinate;
-import chess.domain.board.Pieces;
-import chess.domain.board.PiecesFactory;
 import chess.domain.piece.exception.InvalidMoveException;
 import chess.domain.piece.exception.ObstacleException;
 

@@ -1,5 +1,7 @@
 package chess.domain.board;
 
+import chess.domain.piece.Coordinate;
+import chess.domain.piece.Pieces;
 import chess.domain.piece.Team;
 
 interface BoardState {
