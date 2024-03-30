@@ -95,6 +95,36 @@ class RookTest {
                 .hasMessage("기물로 막혀있어 이동할 수 없습니다.");
     }
 
+    /***
+     * ........ 8
+     * ....E... 7  E: Enemy
+     * ........ 6
+     * ....T... 5  T: target
+     * ........ 4
+     * ....Q... 3  R: Rook
+     * ........ 2
+     * ........ 1
+     * --------
+     * abcdefgh
+     */
+    @DisplayName("target 으로 가는 경로에 기물이 존재하지 않으면, 이동할 수 있다.")
+    @Test
+    void noObstacle() {
+        Rook rook = new Rook(Team.WHITE);
+        Pawn enemy = new Pawn(Team.BLACK);
+        HashMap<Coordinate, Piece> piecesMap = new HashMap<>();
+        Coordinate source = new Coordinate(3, 'e');
+        Coordinate target = new Coordinate(5, 'e');
+        Coordinate obstacle = new Coordinate(7, 'e');
+        piecesMap.put(source, rook);
+        piecesMap.put(obstacle, enemy);
+
+        Pieces pieces = new Pieces(piecesMap);
+
+        assertThatCode(() -> rook.validateMovable(source, target, pieces))
+                .doesNotThrowAnyException();
+    }
+
     @DisplayName("룩은 가로, 세로로 제한없이 움직일 수 있다.")
     @MethodSource("createTargetForHappyCase")
     @ParameterizedTest

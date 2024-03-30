@@ -21,7 +21,7 @@ abstract class AbstractSlidingPiece extends AbstractPiece {
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
         List<Coordinate> path = createPath(source, target);
 
-        validateBlocked(target, path, pieces);
+        validateObstacle(target, path, pieces);
     }
 
     private List<Coordinate> createPath(Coordinate source, Coordinate target) {
@@ -45,13 +45,13 @@ abstract class AbstractSlidingPiece extends AbstractPiece {
         return slidingPath;
     }
 
-    private void validateBlocked(Coordinate target, List<Coordinate> path, Pieces pieces) {
-        Coordinate blockedCoordinate = path.stream()
-                .filter(pieces::isPiecePresent)
-                .findFirst()
-                .orElse(target);
+    private void validateObstacle(Coordinate target, List<Coordinate> path, Pieces pieces) {
+        boolean hasNotObstacle = path.stream()
+                .map(pieces::isPiecePresent)
+                .limit(path.indexOf(target))
+                .noneMatch(hasPiece -> hasPiece);
 
-        if (!blockedCoordinate.equals(target)) {
+        if (!hasNotObstacle) {
             throw new ObstacleException();
         }
     }

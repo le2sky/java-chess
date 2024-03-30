@@ -67,6 +67,7 @@ public class Pawn extends AbstractPiece {
         }
     }
 
+    // TODO : 이름 변경할 것
     private void validateBlocked(Coordinate target, List<Coordinate> path, Pieces pieces) {
         Coordinate blockedCoordinate = path.stream()
                 .filter(pieces::isPiecePresent)
