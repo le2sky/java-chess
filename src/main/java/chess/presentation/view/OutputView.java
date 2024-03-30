@@ -21,6 +21,14 @@ public class OutputView {
         System.out.println("체스 게임을 종료합니다.");
     }
 
+    public void printNewGameMessage() {
+        System.out.println("신규 게임을 진행합니다.");
+    }
+
+    public void printContinueMessage() {
+        System.out.println("이전에 진행하던 게임을 불러왔습니다.");
+    }
+
     public void printPieces(Pieces pieces) {
         CharSequence viewData = converter.convertToViewData(pieces);
         printViewData(viewData);

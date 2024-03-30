@@ -14,8 +14,17 @@ class ChessController extends AbstractController {
 
     @Override
     public void execute() {
+        printChessStartMessage();
         outputView.printPieces(service.findPieces());
         handleException(this::tryMove);
+    }
+
+    private void printChessStartMessage() {
+        if(service.hasContinuableBoard()){
+            outputView.printContinueMessage();
+            return;
+        }
+        outputView.printNewGameMessage();
     }
 
     private void tryMove() {
