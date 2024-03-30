@@ -1,9 +1,9 @@
 package chess;
 
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import chess.domain.board.Board;
-import chess.domain.board.ChessResult;
 import chess.domain.board.Coordinate;
 import chess.domain.piece.Team;
 import chess.view.InputView;
@@ -26,25 +26,30 @@ class ChessController {
         StartCommand startCommand = handleException(inputView::readWannaStart);
         if (startCommand.isStart()) {
             Board board = new Board();
-            outputView.printPieces(board.getPieces());
-            handleException(this::tryMove, board);
+            handleException(this::start, board);
             outro(board);
         }
     }
 
-    private void tryMove(Board board) {
-        MoveCommand moveCommand = inputView.readMoveCommand();
-        while (!moveCommand.isEnd() && board.isPlaying()) {
-            if (moveCommand.isStatus()) {
-                System.out.printf("백팀 점수 : %s %n", board.nowScore(Team.WHITE));
-                System.out.printf("흑팀 점수 : %s %n", board.nowScore(Team.BLACK));
+    private void start(Board board) {
+        outputView.printPieces(board.getPieces());
+        while (board.isPlaying()) {
+            MoveCommand moveCommand = inputView.readMoveCommand();
+            if (moveCommand.isEnd()) {
+                outputView.printEndMessage();
+                break;
+            } else if (moveCommand.isStatus()) {
+                Map<Team, Double> scoreBoard = Map.of(
+                        Team.WHITE, board.nowScore(Team.WHITE),
+                        Team.BLACK, board.nowScore(Team.BLACK)
+                );
+                outputView.printScore(scoreBoard);
             } else {
                 Coordinate source = moveCommand.source();
                 Coordinate target = moveCommand.target();
                 board.move(source, target);
                 outputView.printPieces(board.getPieces());
             }
-            moveCommand = inputView.readMoveCommand();
         }
     }
 
@@ -53,9 +58,7 @@ class ChessController {
             return;
         }
 
-        ChessResult chessResult = board.showResult();
-        System.out.printf("승자 : %s%n", chessResult.winner().name());
-        System.out.printf("패자 : %s%n", chessResult.loser().name());
+        outputView.printChessResult(board.showResult());
     }
 
     private <T> void handleException(Consumer<T> consumer, T target) {
