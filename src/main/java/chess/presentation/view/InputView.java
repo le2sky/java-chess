@@ -11,44 +11,30 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    // TODO: 메서드 길이 개선
     public boolean readWannaPlay() {
         String input = readLine();
-
-        if (START_COMMAND.equals(input)) {
-            return true;
-        }
-
-        if (END_COMMAND.equals(input)) {
-            return false;
-        }
-
-        String message = String.format("존재하지 않는 명령어입니다. %s와 %s 중 하나를 입력해주세요.", START_COMMAND, END_COMMAND);
-        throw new IllegalArgumentException(message);
+        return covertToBoolean(input, START_COMMAND, END_COMMAND);
     }
 
-    // TODO: 메서드 길이 개선
     public boolean readWannaContinue() {
         String input = readLine();
-
-        if (CONTINUE_COMMAND.equals(input)) {
-            return true;
-        }
-
-        if (NEW_GAME_COMMAND.equals(input)) {
-            return false;
-        }
-
-        String message = String.format(
-                "존재하지 않는 명령어입니다. %s와 %s 중 하나를 입력해주세요.",
-                CONTINUE_COMMAND,
-                NEW_GAME_COMMAND
-        );
-
-        throw new IllegalArgumentException(message);
+        return covertToBoolean(input, CONTINUE_COMMAND, NEW_GAME_COMMAND);
     }
 
     public String readLine() {
         return scanner.nextLine().trim();
+    }
+
+    private boolean covertToBoolean(String input, String yesCommand, String noCommand) {
+        if (yesCommand.equals(input)) {
+            return true;
+        }
+
+        if (noCommand.equals(input)) {
+            return false;
+        }
+
+        String message = String.format("존재하지 않는 명령어입니다. %s와 %s 중 하나를 입력해주세요.", yesCommand, noCommand);
+        throw new IllegalArgumentException(message);
     }
 }
