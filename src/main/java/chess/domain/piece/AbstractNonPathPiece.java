@@ -3,11 +3,11 @@ package chess.domain.piece;
 import java.util.List;
 import chess.domain.piece.exception.InvalidMoveException;
 
-abstract class AbstractNonSlidingPiece extends AbstractPiece {
+abstract class AbstractNonPathPiece extends AbstractPiece {
 
     private final List<Direction> directions;
 
-    public AbstractNonSlidingPiece(PieceType type, Team team, List<Direction> directions) {
+    public AbstractNonPathPiece(PieceType type, Team team, List<Direction> directions) {
         super(type, team);
 
         this.directions = directions;

@@ -2,7 +2,7 @@ package chess.domain.piece;
 
 import java.util.List;
 
-public class King extends AbstractNonSlidingPiece {
+public class King extends AbstractNonPathPiece {
 
     public King(Team team) {
         super(PieceType.KING, team, List.of(

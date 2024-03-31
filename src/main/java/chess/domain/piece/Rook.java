@@ -2,7 +2,7 @@ package chess.domain.piece;
 
 import java.util.List;
 
-public class Rook extends AbstractSlidingPiece {
+public class Rook extends AbstractOnlyUsingPathPiece {
 
     public Rook(Team team) {
         super(PieceType.ROOK, team, List.of(

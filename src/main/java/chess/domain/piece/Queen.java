@@ -2,7 +2,7 @@ package chess.domain.piece;
 
 import java.util.List;
 
-public class Queen extends AbstractSlidingPiece {
+public class Queen extends AbstractOnlyUsingPathPiece {
 
     public Queen(Team team) {
         super(PieceType.QUEEN, team, List.of(
