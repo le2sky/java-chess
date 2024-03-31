@@ -1,6 +1,5 @@
 package chess.domain.piece;
 
-import java.util.ArrayList;
 import java.util.List;
 import chess.domain.piece.exception.InvalidMoveException;
 import chess.domain.piece.exception.ObstacleException;
@@ -16,30 +15,28 @@ public class Pawn extends AbstractPiece {
 
     @Override
     void validatePieceMoveRule(Coordinate source, Coordinate target, Pieces pieces) {
-        List<Coordinate> forwardPath = createForwardPath(source);
-        List<Coordinate> diagonalPossibleCoordinates = createDiagonalPossibleCoordinate(source);
-        validateReachable(target, diagonalPossibleCoordinates, forwardPath);
+        Path forwardPath = createForwardPath(source);
+        List<Coordinate> diagonalCoordinates = createDiagonalCoordinates(source);
+        validateReachable(target, diagonalCoordinates, forwardPath);
         validateForwardAttack(target, forwardPath, pieces);
         if (isTwoStep(source, target)) {
             validateInitialCoordinate(source);
-            validateObstacle(forwardPath.get(0), pieces);
+            validateObstacle(target, forwardPath, pieces);
         }
-        validateDiagonal(target, diagonalPossibleCoordinates, pieces);
+        validateDiagonal(target, diagonalCoordinates, pieces);
     }
 
-    private List<Coordinate> createForwardPath(Coordinate source) {
+    private Path createForwardPath(Coordinate source) {
         List<Direction> directions = List.of(Direction.UP, Direction.UP_UP);
-
-        return createPossibleCoordinate(source, directions);
+        return new Path(createCoordinates(source, directions));
     }
 
-    private List<Coordinate> createDiagonalPossibleCoordinate(Coordinate source) {
+    private List<Coordinate> createDiagonalCoordinates(Coordinate source) {
         List<Direction> directions = List.of(Direction.UP_LEFT, Direction.UP_RIGHT);
-
-        return createPossibleCoordinate(source, directions);
+        return createCoordinates(source, directions);
     }
 
-    private List<Coordinate> createPossibleCoordinate(Coordinate source, List<Direction> directions) {
+    private List<Coordinate> createCoordinates(Coordinate source, List<Direction> directions) {
         int forwardDirection = team.getForwardDirection();
 
         return directions.stream()
@@ -50,16 +47,13 @@ public class Pawn extends AbstractPiece {
                 .toList();
     }
 
-    private void validateReachable(
-            Coordinate target,
-            List<Coordinate> diagonalPossibleCoordinates,
-            List<Coordinate> forwardPath) {
-        if (!(forwardPath.contains(target) || diagonalPossibleCoordinates.contains(target))) {
+    private void validateReachable(Coordinate target, List<Coordinate> diagonalCoordinates, Path forwardPath) {
+        if (!(forwardPath.contains(target) || diagonalCoordinates.contains(target))) {
             throw new InvalidMoveException();
         }
     }
 
-    private void validateForwardAttack(Coordinate target, List<Coordinate> forwardPath, Pieces pieces) {
+    private void validateForwardAttack(Coordinate target, Path forwardPath, Pieces pieces) {
         if (forwardPath.contains(target) && isEnemy(pieces.findByCoordinate(target))) {
             throw new ObstacleException();
         }
@@ -75,17 +69,14 @@ public class Pawn extends AbstractPiece {
         }
     }
 
-    private void validateObstacle(Coordinate middleCoordinate, Pieces pieces) {
-        if (pieces.isPiecePresent(middleCoordinate)) {
+    private void validateObstacle(Coordinate target, Path forwardPath, Pieces pieces) {
+        if (forwardPath.hasObstacle(target, pieces)) {
             throw new ObstacleException();
         }
     }
 
-    private void validateDiagonal(
-            Coordinate target,
-            List<Coordinate> diagonalPossibleCoordinates,
-            Pieces pieces) {
-        if (diagonalPossibleCoordinates.contains(target)) {
+    private void validateDiagonal(Coordinate target, List<Coordinate> diagonalCoordinates, Pieces pieces) {
+        if (diagonalCoordinates.contains(target)) {
             validateEnemyExist(target, pieces);
         }
     }
@@ -104,31 +95,13 @@ public class Pawn extends AbstractPiece {
     public Score calculateScore(Coordinate source, Pieces pieces) {
         List<Direction> checkDirections = List.of(Direction.UP, Direction.DOWN);
         boolean hasSamePieceAtFile = checkDirections.stream()
-                .anyMatch(checkDirection -> hasSamePiece(source, checkDirection, pieces));
+                .map(direction -> Path.createPath(direction, source))
+                .anyMatch(path -> path.hasSamePiece(this, pieces));
 
         if (hasSamePieceAtFile) {
             return WEEK_SCORE;
         }
 
         return DEFAULT_SCORE;
-    }
-
-    private boolean hasSamePiece(Coordinate source, Direction checkDirection, Pieces pieces) {
-        Weight weight = checkDirection.getWeight();
-        List<Coordinate> path = createPath(weight, source);
-
-        return path.stream()
-                .map(pieces::findByCoordinate)
-                .anyMatch(this::equals);
-    }
-
-    private List<Coordinate> createPath(Weight weight, Coordinate nowCoordinate) {
-        List<Coordinate> path = new ArrayList<>();
-        while (nowCoordinate.canPlus(weight)) {
-            nowCoordinate = nowCoordinate.plus(weight);
-            path.add(nowCoordinate);
-        }
-
-        return path;
     }
 }
