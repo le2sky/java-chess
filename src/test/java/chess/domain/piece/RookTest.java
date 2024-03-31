@@ -30,7 +30,7 @@ class RookTest {
 
         Score result = rook.calculateScore(source, pieces);
 
-        assertThat(result.getValue()).isEqualTo(5);
+        assertThat(result.value()).isEqualTo(5);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

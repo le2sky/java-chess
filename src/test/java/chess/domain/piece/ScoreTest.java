@@ -23,6 +23,6 @@ class ScoreTest {
 
         Score result = score.add(other);
 
-        assertThat(result.getValue()).isEqualTo(2);
+        assertThat(result.value()).isEqualTo(2);
     }
 }

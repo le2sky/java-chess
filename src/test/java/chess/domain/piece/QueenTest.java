@@ -30,7 +30,7 @@ class QueenTest {
 
         Score result = queen.calculateScore(source, pieces);
 
-        assertThat(result.getValue()).isEqualTo(9);
+        assertThat(result.value()).isEqualTo(9);
     }
 
     @DisplayName("target 좌표에 아군 기물이 있다면, 이동할 수 없다.")

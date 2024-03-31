@@ -46,7 +46,7 @@ class ViewDataConverter {
         scoreBoard.forEach((team, score) -> {
             viewData.append(team.name());
             viewData.append(" 진영 : ");
-            viewData.append(score.getValue());
+            viewData.append(score.value());
             viewData.append("점");
             viewData.append(System.lineSeparator());
         });

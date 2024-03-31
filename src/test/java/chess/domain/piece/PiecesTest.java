@@ -231,7 +231,7 @@ class PiecesTest {
 
         Score result = pieces.calculateTotalScore(Team.BLACK);
 
-        assertThat(result.getValue()).isEqualTo(20);
+        assertThat(result.value()).isEqualTo(20);
     }
 
     @DisplayName("백팀의 점수를 계산할 수 있다.")
@@ -241,7 +241,7 @@ class PiecesTest {
 
         Score result = pieces.calculateTotalScore(Team.WHITE);
 
-        assertThat(result.getValue()).isEqualTo(19.5);
+        assertThat(result.value()).isEqualTo(19.5);
     }
 
     private Map<Coordinate, Piece> createPiecesMap() {
