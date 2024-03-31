@@ -1,8 +1,6 @@
 package chess.application;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 import chess.application.request.MovePieceRequest;
 import chess.domain.board.Board;
 import chess.domain.board.BoardRepository;
@@ -51,9 +49,7 @@ public class ChessService {
 
     public Map<Team, Score> findChessScore() {
         Board board = boardRepository.loadBoard();
-        return Arrays.stream(Team.values())
-                .filter(team -> !team.isEmpty())
-                .collect(Collectors.toMap(team -> team, board::nowScore));
+        return board.showScore();
     }
 
     public void clearPreviousBoard() {

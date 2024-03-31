@@ -1,6 +1,9 @@
 package chess.domain.board;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.King;
 import chess.domain.piece.Piece;
@@ -56,8 +59,10 @@ class PlayingState implements BoardState {
     }
 
     @Override
-    public Score nowScore(Team team) {
-        return pieces.calculateTotalScore(team);
+    public Map<Team, Score> showScore() {
+        return Arrays.stream(Team.values())
+                .filter(team -> !team.isEmpty())
+                .collect(Collectors.toMap(team -> team, pieces::calculateTotalScore));
     }
 
     @Override

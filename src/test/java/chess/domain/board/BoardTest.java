@@ -3,8 +3,10 @@ package chess.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.entry;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.King;
@@ -88,9 +90,11 @@ class BoardTest {
         Pieces pieces = PiecesFactory.createInitialPieces();
         Board board = new Board(pieces);
 
-        Score score = board.nowScore(Team.WHITE);
+        Map<Team, Score> score = board.showScore();
 
-        assertThat(score.getValue()).isEqualTo(38);
+        assertThat(score).contains(
+                entry(Team.BLACK, new Score(38)),
+                entry(Team.WHITE, new Score(38)));
     }
 
     @DisplayName("체스가 종료되면, 기물들의 점수를 조회할 수 없다.")
@@ -100,7 +104,7 @@ class BoardTest {
         Turn turn = new Turn(Team.WHITE);
         Board endBoard = new Board(new EndState(turn, pieces));
 
-        assertThatThrownBy(() -> endBoard.nowScore(Team.WHITE))
+        assertThatThrownBy(endBoard::showScore)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 종료된 체스입니다.");
     }

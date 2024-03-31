@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import java.util.Map;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
@@ -23,7 +24,7 @@ class EndState implements BoardState {
     }
 
     @Override
-    public Score nowScore(Team team) {
+    public Map<Team, Score> showScore() {
         throw new IllegalStateException(ALREADY_END_MESSAGE);
     }
 

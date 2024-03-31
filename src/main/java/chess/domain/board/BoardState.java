@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import java.util.Map;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
@@ -9,7 +10,7 @@ interface BoardState {
 
     BoardState move(Coordinate source, Coordinate target);
 
-    Score nowScore(Team team);
+    Map<Team, Score> showScore();
 
     ChessResult showResult();
 

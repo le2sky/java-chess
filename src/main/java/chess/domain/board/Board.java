@@ -32,8 +32,8 @@ public class Board {
         state = state.move(source, target);
     }
 
-    public Score nowScore(Team team) {
-        return state.nowScore(team);
+    public Map<Team, Score> showScore() {
+        return state.showScore();
     }
 
     public ChessResult showResult() {
