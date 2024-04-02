@@ -11,7 +11,11 @@ public class MySqlBoardRepository implements BoardRepository {
     private Board cached;
 
     public MySqlBoardRepository() {
-        this.boardHistoryDao = new BoardHistoryDao();
+        this(new MySqlBoardHistoryDao());
+    }
+
+    public MySqlBoardRepository(BoardHistoryDao boardHistoryDao) {
+        this.boardHistoryDao = boardHistoryDao;
     }
 
     @Override
