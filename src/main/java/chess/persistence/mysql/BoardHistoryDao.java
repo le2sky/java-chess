@@ -19,7 +19,7 @@ public class BoardHistoryDao {
     public void saveOne(BoardHistoryEntity entity) {
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("insert into board_histories values (0, ?, ?, ?, ?)");
+                    connection.prepareStatement("insert into board_history values (0, ?, ?, ?, ?)");
             preparedStatement.setInt(1, entity.sourceRank);
             preparedStatement.setInt(2, entity.sourceFile);
             preparedStatement.setInt(3, entity.targetRank);
@@ -32,7 +32,7 @@ public class BoardHistoryDao {
 
     public void deleteAll() {
         try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from board_histories");
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from board_history");
             preparedStatement.execute();
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -41,7 +41,7 @@ public class BoardHistoryDao {
 
     public List<BoardHistoryEntity> findAll() {
         try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from board_histories");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from board_history");
             ResultSet resultSet = preparedStatement.executeQuery();
             return createHistories(resultSet);
         } catch (SQLException exception) {

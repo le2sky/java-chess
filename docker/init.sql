@@ -1,6 +1,6 @@
 USE chess;
 
-CREATE TABLE board_histories
+CREATE TABLE board_history
 (
     id          int auto_increment primary key,
     source_rank int not null,
