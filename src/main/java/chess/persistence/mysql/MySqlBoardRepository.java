@@ -56,8 +56,8 @@ public class MySqlBoardRepository implements BoardRepository {
         Board board = new Board();
         List<BoardHistoryEntity> histories = boardHistoryDao.findAll();
         for (BoardHistoryEntity history : histories) {
-            Coordinate source = new Coordinate(history.sourceRank, (char) history.sourceFile);
-            Coordinate target = new Coordinate(history.targetRank, (char) history.targetFile);
+            Coordinate source = new Coordinate(history.sourceRank, history.sourceFile);
+            Coordinate target = new Coordinate(history.targetRank, history.targetFile);
             board.move(source, target);
         }
         return board;

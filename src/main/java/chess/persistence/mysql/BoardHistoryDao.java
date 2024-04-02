@@ -21,9 +21,9 @@ public class BoardHistoryDao {
             PreparedStatement preparedStatement =
                     connection.prepareStatement("insert into board_history values (0, ?, ?, ?, ?)");
             preparedStatement.setInt(1, entity.sourceRank);
-            preparedStatement.setInt(2, entity.sourceFile);
+            preparedStatement.setString(2, String.valueOf(entity.sourceFile));
             preparedStatement.setInt(3, entity.targetRank);
-            preparedStatement.setInt(4, entity.targetFile);
+            preparedStatement.setString(4, String.valueOf(entity.targetFile));
             preparedStatement.execute();
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -53,9 +53,9 @@ public class BoardHistoryDao {
         List<BoardHistoryEntity> histories = new ArrayList<>();
         while (resultSet.next()) {
             int sourceRank = resultSet.getInt("source_rank");
-            int sourceFile = resultSet.getInt("source_file");
+            char sourceFile = resultSet.getString("source_file").charAt(0);
             int targetRank = resultSet.getInt("target_rank");
-            int targetFile = resultSet.getInt("target_file");
+            char targetFile = resultSet.getString("target_file").charAt(0);
             histories.add(new BoardHistoryEntity(sourceRank, sourceFile, targetRank, targetFile));
         }
         return histories;

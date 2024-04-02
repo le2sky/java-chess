@@ -3,11 +3,11 @@ package chess.persistence.mysql;
 public class BoardHistoryEntity {
 
     public int sourceRank;
-    public int sourceFile;
+    public char sourceFile;
     public int targetRank;
-    public int targetFile;
+    public char targetFile;
 
-    public BoardHistoryEntity(int sourceRank, int sourceFile, int targetRank, int targetFile) {
+    public BoardHistoryEntity(int sourceRank, char sourceFile, int targetRank, char targetFile) {
         this.sourceRank = sourceRank;
         this.sourceFile = sourceFile;
         this.targetRank = targetRank;
