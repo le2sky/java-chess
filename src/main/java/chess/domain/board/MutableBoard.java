@@ -6,9 +6,9 @@ import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
-interface BoardState {
+interface MutableBoard {
 
-    BoardState move(Coordinate source, Coordinate target);
+    MutableBoard move(Coordinate source, Coordinate target);
 
     Map<Team, Score> showScore();
 

@@ -6,20 +6,20 @@ import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
-class EndState implements BoardState {
+class EndBoard implements MutableBoard {
 
     private static final String ALREADY_END_MESSAGE = "이미 종료된 체스입니다.";
 
     private final Turn turn;
     private final Pieces pieces;
 
-    public EndState(Turn turn, Pieces pieces) {
+    public EndBoard(Turn turn, Pieces pieces) {
         this.turn = turn;
         this.pieces = pieces;
     }
 
     @Override
-    public BoardState move(Coordinate source, Coordinate target) {
+    public MutableBoard move(Coordinate source, Coordinate target) {
         throw new IllegalStateException(ALREADY_END_MESSAGE);
     }
 

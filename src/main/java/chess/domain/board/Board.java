@@ -10,7 +10,7 @@ import chess.domain.piece.Team;
 
 public class Board {
 
-    private BoardState state;
+    private MutableBoard board;
 
     public Board(Map<Coordinate, Piece> pieces) {
         this(new Pieces(pieces));
@@ -21,30 +21,30 @@ public class Board {
     }
 
     public Board(Pieces pieces) {
-        this(new PlayingState(pieces, new Turn(Team.WHITE)));
+        this(new PlayingBoard(pieces, new Turn(Team.WHITE)));
     }
 
-    public Board(BoardState state) {
-        this.state = state;
+    public Board(MutableBoard board) {
+        this.board = board;
     }
 
     public void move(Coordinate source, Coordinate target) {
-        state = state.move(source, target);
+        board = board.move(source, target);
     }
 
     public Map<Team, Score> showScore() {
-        return state.showScore();
+        return board.showScore();
     }
 
     public ChessResult showResult() {
-        return state.showResult();
+        return board.showResult();
     }
 
     public boolean isPlaying() {
-        return state.isPlaying();
+        return board.isPlaying();
     }
 
     public Pieces getPieces() {
-        return state.getPieces();
+        return board.getPieces();
     }
 }

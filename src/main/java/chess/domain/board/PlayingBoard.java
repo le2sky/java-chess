@@ -11,18 +11,18 @@ import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 
-class PlayingState implements BoardState {
+class PlayingBoard implements MutableBoard {
 
     private final Pieces pieces;
     private final Turn turn;
 
-    public PlayingState(Pieces pieces, Turn turn) {
+    public PlayingBoard(Pieces pieces, Turn turn) {
         this.pieces = pieces;
         this.turn = turn;
     }
 
     @Override
-    public BoardState move(Coordinate source, Coordinate target) {
+    public MutableBoard move(Coordinate source, Coordinate target) {
         validateSourceExist(source);
         validateTurn(source);
         validateMovable(source, target);
@@ -48,11 +48,11 @@ class PlayingState implements BoardState {
         sourcePiece.validateMovable(source, target, pieces);
     }
 
-    private BoardState updateBoard(Coordinate source, Coordinate target) {
+    private MutableBoard updateBoard(Coordinate source, Coordinate target) {
         Piece targetPiece = pieces.findByCoordinate(target);
         pieces.move(source, target);
         if (targetPiece.getType() == PieceType.KING) {
-            return new EndState(turn, pieces);
+            return new EndBoard(turn, pieces);
         }
         turn.change();
         return this;
