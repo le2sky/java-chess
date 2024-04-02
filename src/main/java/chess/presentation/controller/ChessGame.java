@@ -15,14 +15,14 @@ public class ChessGame extends AbstractChessGame {
     public void execute() {
         outputView.printGameGuide();
         if (handleException(inputView::readWannaPlay)) {
-            selectContinueGame();
+            choiceContinueGame();
             outputView.printPieces(service.findPieces());
             handleException(this::tryMove);
         }
         outro();
     }
 
-    private void selectContinueGame() {
+    private void choiceContinueGame() {
         if (isContinuable()) {
             outputView.printContinueMessage();
             return;
