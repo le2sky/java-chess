@@ -27,7 +27,11 @@ public class MySqlBoardRepository implements BoardRepository {
 
     @Override
     public Board loadBoard() {
-        return recover();
+        try {
+            return recover();
+        } catch (Exception exception) {
+            throw new IllegalStateException("보드를 불러오는데, 실패했습니다.");
+        }
     }
 
     @Override
