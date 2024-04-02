@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import chess.domain.piece.Coordinate;
-import chess.domain.piece.King;
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceType;
 import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
 import chess.domain.piece.Team;
@@ -51,7 +51,7 @@ class PlayingState implements BoardState {
     private BoardState updateBoard(Coordinate source, Coordinate target) {
         Piece targetPiece = pieces.findByCoordinate(target);
         pieces.move(source, target);
-        if (targetPiece instanceof King) {
+        if (targetPiece.getType() == PieceType.KING) {
             return new EndState(turn, pieces);
         }
         turn.change();
