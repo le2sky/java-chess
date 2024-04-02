@@ -1,14 +1,21 @@
 package chess.presentation.controller;
 
+import java.util.function.Supplier;
 import chess.application.ChessService;
 import chess.presentation.controller.command.Command;
 import chess.presentation.controller.command.CommandFactory;
+import chess.presentation.view.InputView;
+import chess.presentation.view.OutputView;
 
-public class ChessGame extends AbstractChessGame {
+public class ChessGame {
 
+    private final InputView inputView;
+    private final OutputView outputView;
     private final ChessService service;
 
     public ChessGame(ChessService service) {
+        this.inputView = new InputView();
+        this.outputView = new OutputView();
         this.service = service;
     }
 
@@ -60,5 +67,23 @@ public class ChessGame extends AbstractChessGame {
             service.clearPreviousBoard();
         }
         outputView.printGameEndMessage();
+    }
+
+    protected void handleException(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception exception) {
+            outputView.printExceptionMessage(exception);
+            handleException(runnable);
+        }
+    }
+
+    protected <T> T handleException(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception exception) {
+            outputView.printExceptionMessage(exception);
+            return handleException(supplier);
+        }
     }
 }
