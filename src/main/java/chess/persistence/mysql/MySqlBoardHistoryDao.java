@@ -12,9 +12,9 @@ import java.util.Properties;
 
 public class MySqlBoardHistoryDao implements BoardHistoryDao {
 
+    private final String url;
     private final String username;
     private final String password;
-    private final String url;
 
     public MySqlBoardHistoryDao() {
         String path = "src/main/java/resources/application.properties";
@@ -24,7 +24,6 @@ public class MySqlBoardHistoryDao implements BoardHistoryDao {
             this.url = createUrl(properties);
             this.username = properties.getProperty("username");
             this.password = properties.getProperty("password");
-
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
