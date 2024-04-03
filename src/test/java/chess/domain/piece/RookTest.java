@@ -20,6 +20,14 @@ class RookTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("룩은 킹이 아니다.")
+    @Test
+    void isKing() {
+        Rook rook = new Rook(Team.WHITE);
+
+        assertThat(rook.isKing()).isFalse();
+    }
+
     @DisplayName("룩의 점수를 계산한다.")
     @Test
     void calculateScore() {

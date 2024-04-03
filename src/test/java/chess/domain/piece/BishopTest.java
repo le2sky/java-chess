@@ -20,6 +20,14 @@ class BishopTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("비숍은 킹이 아니다.")
+    @Test
+    void isKing() {
+        Bishop bishop = new Bishop(Team.WHITE);
+
+        assertThat(bishop.isKing()).isFalse();
+    }
+
     @DisplayName("비숍의 점수를 계산한다.")
     @Test
     void calculateScore() {

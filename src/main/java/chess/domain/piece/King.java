@@ -21,4 +21,9 @@ public class King extends AbstractNonPathPiece {
     public Score calculateScore(Coordinate source, Pieces pieces) {
         return new Score(0);
     }
+
+    @Override
+    public boolean isKing() {
+        return true;
+    }
 }

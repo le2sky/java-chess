@@ -104,4 +104,9 @@ public class Pawn extends AbstractPiece {
 
         return DEFAULT_SCORE;
     }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }

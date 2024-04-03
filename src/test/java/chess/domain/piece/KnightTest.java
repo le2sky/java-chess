@@ -20,6 +20,14 @@ class KnightTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("나이트는 킹이 아니다.")
+    @Test
+    void isKing() {
+        Knight knight = new Knight(Team.WHITE);
+
+        assertThat(knight.isKing()).isFalse();
+    }
+
     @DisplayName("나이트의 점수를 계산한다.")
     @Test
     void calculateScore() {

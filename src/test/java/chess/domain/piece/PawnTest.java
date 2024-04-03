@@ -18,6 +18,14 @@ class PawnTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("폰은 킹이 아니다.")
+    @Test
+    void isKing() {
+        Pawn knight = new Pawn(Team.WHITE);
+
+        assertThat(knight.isKing()).isFalse();
+    }
+
     @DisplayName("흰색 폰은")
     @Nested
     class WhitePawnTest {

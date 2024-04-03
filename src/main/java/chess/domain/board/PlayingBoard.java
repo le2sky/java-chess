@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import chess.domain.piece.Coordinate;
 import chess.domain.piece.Piece;
-import chess.domain.piece.PieceType;
 import chess.domain.piece.Pieces;
 import chess.domain.piece.Score;
 import chess.domain.piece.Team;
@@ -51,7 +50,7 @@ class PlayingBoard implements MutableBoard {
     private MutableBoard updateBoard(Coordinate source, Coordinate target) {
         Piece targetPiece = pieces.findByCoordinate(target);
         pieces.move(source, target);
-        if (targetPiece.getType() == PieceType.KING) {
+        if (targetPiece.isKing()) {
             return new EndBoard(turn, pieces);
         }
         turn.change();

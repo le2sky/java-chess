@@ -21,4 +21,9 @@ class EmptyPiece extends AbstractPiece {
     public Score calculateScore(Coordinate source, Pieces pieces) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }

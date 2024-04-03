@@ -21,4 +21,9 @@ public class Queen extends AbstractOnlyUsingPathPiece {
     public Score calculateScore(Coordinate source, Pieces pieces) {
         return new Score(9);
     }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }

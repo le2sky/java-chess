@@ -10,6 +10,8 @@ public interface Piece {
 
     boolean isEnemy(Piece other);
 
+    boolean isKing();
+
     PieceType getType();
 
     Team getTeam();

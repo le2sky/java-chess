@@ -20,6 +20,14 @@ class QueenTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("퀸은 킹이 아니다.")
+    @Test
+    void isKing() {
+        Queen queen = new Queen(Team.WHITE);
+
+        assertThat(queen.isKing()).isFalse();
+    }
+
     @DisplayName("퀸의 점수를 계산한다.")
     @Test
     void calculateScore() {

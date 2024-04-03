@@ -17,4 +17,9 @@ public class Bishop extends AbstractOnlyUsingPathPiece {
     public Score calculateScore(Coordinate source, Pieces pieces) {
         return new Score(3);
     }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }
