@@ -22,20 +22,17 @@ public class ChessGame {
     public void execute() {
         outputView.printGameGuide();
         if (handleException(inputView::readWannaPlay)) {
-            choiceContinueGame();
-            outputView.printPieces(service.findPieces());
-            handleException(this::tryMove);
+            startGame();
         }
         outro();
     }
 
-    private void choiceContinueGame() {
+    private void startGame() {
         if (isContinuable()) {
-            outputView.printContinueMessage();
+            continueGame();
             return;
         }
-        service.clearPreviousBoard();
-        outputView.printNewGameMessage();
+        startNewGame();
     }
 
     private boolean isContinuable() {
@@ -45,6 +42,19 @@ public class ChessGame {
         }
 
         return false;
+    }
+
+    private void continueGame() {
+        outputView.printContinueMessage();
+        outputView.printPieces(service.findPieces());
+        handleException(this::tryMove);
+    }
+
+    private void startNewGame() {
+        service.clearPreviousBoard();
+        outputView.printNewGameMessage();
+        outputView.printPieces(service.findPieces());
+        handleException(this::tryMove);
     }
 
     private void tryMove() {
