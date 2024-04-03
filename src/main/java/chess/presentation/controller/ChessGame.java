@@ -61,13 +61,18 @@ public class ChessGame {
         Command command;
         do {
             command = CommandFactory.createCommand(inputView.readLine());
-            tryExecute(command);
-        } while (service.isChessPlaying() && command.isExecutable());
+            process(command);
+        } while (service.isChessPlaying() && !command.isEnd());
     }
 
-    private void tryExecute(Command command) {
-        if (command.isExecutable()) {
-            command.execute(outputView, service);
+    private void process(Command command) {
+        if (command.isMove()) {
+            service.move(command.getData());
+            outputView.printPieces(service.findPieces());
+        }
+
+        if (command.isStatus()) {
+            outputView.printScore(service.findChessScore());
         }
     }
 

@@ -2,12 +2,10 @@ package chess.presentation.controller.command;
 
 import java.util.Arrays;
 import java.util.List;
-import chess.application.ChessService;
 import chess.application.request.MovePieceRequest;
 import chess.domain.piece.Coordinate;
-import chess.presentation.view.OutputView;
 
-class MoveCommand extends Command {
+class MoveCommand implements Command {
 
     private static final int COMMAND_INDEX = 0;
     private static final int SOURCE_INDEX = 1;
@@ -70,13 +68,22 @@ class MoveCommand extends Command {
     }
 
     @Override
-    public void execute(OutputView outputView, ChessService service) {
-        service.move(data);
-        outputView.printPieces(service.findPieces());
+    public boolean isMove() {
+        return true;
     }
 
     @Override
-    public boolean isExecutable() {
-        return true;
+    public boolean isStatus() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnd() {
+        return false;
+    }
+
+    @Override
+    public MovePieceRequest getData() {
+        return data;
     }
 }

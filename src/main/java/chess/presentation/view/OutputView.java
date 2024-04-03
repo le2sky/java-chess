@@ -41,13 +41,13 @@ public class OutputView {
         printViewData(viewData);
     }
 
-    public void printScore(Map<Team, Score> scoreBoard) {
-        CharSequence viewData = converter.convertToViewData(scoreBoard);
+    public void printChessResult(ChessResult chessResult) {
+        CharSequence viewData = converter.convertToViewData(chessResult);
         printViewData(viewData);
     }
 
-    public void printChessResult(ChessResult chessResult) {
-        CharSequence viewData = converter.convertToViewData(chessResult);
+    public void printScore(Map<Team, Score> chessScore) {
+        CharSequence viewData = converter.convertToViewData(chessScore);
         printViewData(viewData);
     }
 

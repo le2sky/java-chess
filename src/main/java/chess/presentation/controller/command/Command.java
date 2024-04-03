@@ -1,11 +1,14 @@
 package chess.presentation.controller.command;
 
-import chess.application.ChessService;
-import chess.presentation.view.OutputView;
+import chess.application.request.MovePieceRequest;
 
-public abstract class Command {
+public interface Command {
 
-    public abstract void execute(OutputView outputView, ChessService service);
+    boolean isMove();
 
-    public abstract boolean isExecutable();
+    boolean isStatus();
+
+    boolean isEnd();
+
+    MovePieceRequest getData();
 }

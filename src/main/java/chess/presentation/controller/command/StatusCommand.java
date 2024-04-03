@@ -1,21 +1,30 @@
 package chess.presentation.controller.command;
 
-import chess.application.ChessService;
-import chess.presentation.view.OutputView;
+import chess.application.request.MovePieceRequest;
 
-class StatusCommand extends Command {
+class StatusCommand implements Command {
 
     public static boolean canCreate(String input) {
         return "status".equals(input);
     }
 
     @Override
-    public void execute(OutputView outputView, ChessService service) {
-        outputView.printScore(service.findChessScore());
+    public boolean isMove() {
+        return false;
     }
 
     @Override
-    public boolean isExecutable() {
+    public boolean isStatus() {
         return true;
+    }
+
+    @Override
+    public boolean isEnd() {
+        return false;
+    }
+
+    @Override
+    public MovePieceRequest getData() {
+        throw new UnsupportedOperationException();
     }
 }
