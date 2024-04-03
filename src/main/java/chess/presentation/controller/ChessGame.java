@@ -79,7 +79,7 @@ public class ChessGame {
         outputView.printGameEndMessage();
     }
 
-    protected void handleException(Runnable runnable) {
+    private void handleException(Runnable runnable) {
         try {
             runnable.run();
         } catch (Exception exception) {
@@ -88,7 +88,7 @@ public class ChessGame {
         }
     }
 
-    protected <T> T handleException(Supplier<T> supplier) {
+    private <T> T handleException(Supplier<T> supplier) {
         try {
             return supplier.get();
         } catch (Exception exception) {
