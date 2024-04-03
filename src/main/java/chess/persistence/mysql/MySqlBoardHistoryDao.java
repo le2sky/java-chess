@@ -1,5 +1,6 @@
 package chess.persistence.mysql;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,14 +8,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MySqlBoardHistoryDao implements BoardHistoryDao {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "chess";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "user";
-    private static final String PASSWORD = "password";
+    private final String username;
+    private final String password;
+    private final String url;
+
+    public MySqlBoardHistoryDao() {
+        String path = "src/main/java/resources/application.properties";
+        try (FileInputStream fileInputStream = new FileInputStream(path)) {
+            Properties properties = new Properties();
+            properties.load(fileInputStream);
+            this.url = createUrl(properties);
+            this.username = properties.getProperty("username");
+            this.password = properties.getProperty("password");
+
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    private String createUrl(Properties properties) {
+        String server = properties.getProperty("server");
+        String database = properties.getProperty("database");
+        String option = properties.getProperty("option");
+
+        return "jdbc:mysql://" + server + "/" + database + option;
+    }
 
     @Override
     public void saveOne(BoardHistoryEntity entity) {
@@ -65,6 +87,6 @@ public class MySqlBoardHistoryDao implements BoardHistoryDao {
     }
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+        return DriverManager.getConnection(url, username, password);
     }
 }
