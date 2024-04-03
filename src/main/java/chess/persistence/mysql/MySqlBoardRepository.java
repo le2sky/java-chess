@@ -8,7 +8,6 @@ import chess.domain.piece.Coordinate;
 public class MySqlBoardRepository implements BoardRepository {
 
     private final BoardHistoryDao boardHistoryDao;
-    private Board cached;
 
     public MySqlBoardRepository() {
         this(new MySqlBoardHistoryDao());
@@ -28,10 +27,21 @@ public class MySqlBoardRepository implements BoardRepository {
     @Override
     public Board loadBoard() {
         try {
-            return recover();
+            return createBoard();
         } catch (Exception exception) {
             throw new IllegalStateException("보드를 불러오는데, 실패했습니다.");
         }
+    }
+
+    private Board createBoard() {
+        Board board = new Board();
+        List<BoardHistoryEntity> histories = boardHistoryDao.findAll();
+        for (BoardHistoryEntity history : histories) {
+            Coordinate source = new Coordinate(history.sourceRank, history.sourceFile);
+            Coordinate target = new Coordinate(history.targetRank, history.targetFile);
+            board.move(source, target);
+        }
+        return board;
     }
 
     @Override
@@ -48,26 +58,5 @@ public class MySqlBoardRepository implements BoardRepository {
     @Override
     public void clear() {
         boardHistoryDao.deleteAll();
-        cached = recover();
-    }
-
-    private Board recover() {
-        if (cached != null) {
-            return cached;
-        }
-        cached = createBoard();
-
-        return cached;
-    }
-
-    private Board createBoard() {
-        Board board = new Board();
-        List<BoardHistoryEntity> histories = boardHistoryDao.findAll();
-        for (BoardHistoryEntity history : histories) {
-            Coordinate source = new Coordinate(history.sourceRank, history.sourceFile);
-            Coordinate target = new Coordinate(history.targetRank, history.targetFile);
-            board.move(source, target);
-        }
-        return board;
     }
 }

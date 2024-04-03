@@ -13,9 +13,11 @@ import chess.domain.piece.Team;
 public class ChessService {
 
     private final BoardRepository boardRepository;
+    private Board board;
 
     public ChessService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
+        this.board = boardRepository.loadBoard();
     }
 
     public boolean hasContinuableBoard() {
@@ -23,7 +25,6 @@ public class ChessService {
     }
 
     public void move(MovePieceRequest request) {
-        Board board = boardRepository.loadBoard();
         Coordinate source = request.source();
         Coordinate target = request.target();
 
@@ -33,26 +34,23 @@ public class ChessService {
     }
 
     public boolean isChessPlaying() {
-        Board board = boardRepository.loadBoard();
         return board.isPlaying();
     }
 
     public Pieces findPieces() {
-        Board board = boardRepository.loadBoard();
         return board.getPieces();
     }
 
     public ChessResult findChessResult() {
-        Board board = boardRepository.loadBoard();
         return board.showResult();
     }
 
     public Map<Team, Score> findChessScore() {
-        Board board = boardRepository.loadBoard();
         return board.showScore();
     }
 
     public void clearPreviousBoard() {
         boardRepository.clear();
+        board = boardRepository.loadBoard();
     }
 }
